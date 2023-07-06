@@ -1,113 +1,185 @@
-import Image from 'next/image'
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { Coach } from "./components/coach";
+import { Testimonial } from "./components/testimonial";
+import Image from 'next/image';
 
 export default function Home() {
+	const submitButton = useRef(null);
+	const [submitInView, setSubmitInView] = useState(false)
+
+	const isInView = () => {
+			console.log("checking in view")
+		const rect = document.getElementById("submit")?.getBoundingClientRect();	
+			console.log("checking in view")
+
+		if(rect) 
+		{
+			console.log("checking in view")
+			setSubmitInView(
+					rect.top >= 0 &&
+					rect.left >= 0 &&
+					rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+					rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+			);
+		}
+
+		return setSubmitInView(false);
+	}
+
+	useEffect(() => {
+		const handleScroll = () => {
+			console.log("handlin scroll")
+		}
+	console.log("Adding event")
+		document.body.addEventListener("scroll", handleScroll, true)	
+
+		return document.body.removeEventListener("scroll", handleScroll, true)
+	}, []);
+
+	const goToForm = () => {
+		//@ts-ignore
+		submitButton.current?.scrollIntoView({behavior: 'smooth'});
+	}
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main onScroll={() => console.log("scrolling main")} id="main" className={`flex min-h-screen flex-col items-centerbg-stone-900`}>
+			<div className='flex flex-col justify-center items-center bg-stone-900 w-full'>
+				<div className='text-4xl text-stone-50 pt-20 md:text-7xl z-10'>RISE</div>
+				<div className='text-4xl text-stone-50 md:text-7xl z-10'>BOOTCAMP</div>
+				<h2 className='text-[#D83728] py-8 text-2xl md:text-5xl z-10'>WE RISE TOGETHER</h2>
+				<Image src="/rise-logo.png" alt="rise bootcamp" className="absolute top-8 left-[50%] -translate-x-[50%]" width={300} height={250}/>
+			</div>
+			
+			<div className="w-full md:pt-20 lg:px-36 2xl:px-[34rem]" onScroll={() => console.log("scrolling main")}>
+				<div className="w-full md:flex md:flex-row md:justify-between md:flex-wrap">
+					<Testimonial 
+						url="/joy.jpg"
+						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+					/>			
+					<Testimonial 
+						url="/drew.jpg"
+						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+					/>			
+					<Testimonial 
+						url="/idk.jpg"
+						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+					/>			
+					<Testimonial 
+						url="/tamika.jpg"
+						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+					/>			
+				</div>
+				<hr className="mb-10 mt-10 2xl:mt-32 border-stone-600 md:px-12"/>
+				<div className="w-full flex flex-col items-center px-4 pb-12 2xl:pb-24">
+					<div className="text-3xl md:text-5xl text-stone-50 my-8">PRICING</div>	
+					<div className="flex relative overflow-hidden flex-row justify-between items-center w-full my-4 px-2 md:px-12 lg:px-24 2xl:px-72 bg-[#D83728] rounded-lg py-8">
+						<div className="flex flex-col justify-center">
+							<div className="text-stone-50 text-2xl md:text-5xl pl-14 md:pl-0">6 WEEK BOOTCAMP</div>
+							<ul className="text-stone-50 pl-12 md:pl-0 mt-4 md:text-3xl lg:pl-4">
+								<li>&#x2022; NUTRITION GUIDANCE & MONITORING</li>
+								<li>&#x2022; IN DEPTH EXERCISE EXPLANATIONS</li>
+								<li>&#x2022; INTO TO FUNCTIONAL FITNESS</li>
+								<li>&#x2022; GOAL SETTING SEMINARS</li>
+							</ul>
+						</div>
+						<div className="text-stone-50 text-2xl md:text-4xl">$200</div>
+						<div
+							className="absolute transform -rotate-45 text-md md:text-2xl bg-amber-300 text-center text-stone-900 font-semibold py-1 left-[-4.5em] top-[.5em] w-[200px] md:left-[-3em] md:top-[1em] md:w-[230px]">
+								HOT DEAL
+						</div>
+					</div>
+					<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
+						<div className="text-stone-50 text-2xl md:text-3xl">2 DAYS/WEEK CROSSFIT</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">$105/MO</div>
+					</div>
+					<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
+						<div className="text-stone-50 text-2xl md:text-3xl">3 DAYS/WEEK CROSSFIT</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">$135/MO</div>
+					</div>
+					<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
+						<div className="text-stone-50 text-2xl md:text-3xl">UNLIMITED CROSSFIT</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">$165/MO</div>
+					</div>
+				</div>
+				</div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+				<div className="w-full flex flex-col items-center pt-10 pb-12 px-4 2xl:px-72 bg-stone-50">
+					<div className="text-3xl md:text-5xl text-stone-900 mt-8 mb-24">DISCOUNTS</div>	
+					<div className="flex flex-row w-full mb-12 justify-around 2xl:px-24">
+							<div className="flex justify-center items-center flex-col flex-1">
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-stone-900 pb-4">TEACHER</div>
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-[#D83728]">10%</div>
+							</div>
+							<div className="flex justify-center items-center flex-col flex-1">
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-stone-900 pb-4">FIRST RESPONDER</div>
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-[#D83728]">20%</div>
+							</div>
+							<div className="flex justify-center items-center flex-col flex-1">
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-stone-900 pb-4">STUDENT</div>
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-[#D83728]">30%</div>
+							</div>
+							<div className="flex justify-center items-center flex-col flex-1">
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-stone-900 pb-4">PRE PAY (6MO+)</div>
+								<div className="text-stone-900 text-2xl md:text-4xl lg:text-5xl text-[#D83728]">10%</div>
+							</div>
+					</div>
+				</div>
+				<hr className="mb-10 border-stone-600"/>
+				<div className=" w-full flex flex-col items-center lg:px-72 2xl:px-[32rem]">
+					<div className="text-3xl md:text-5xl text-stone-50 md:my-8 md:mb-12">COACHES</div>	
+					<div className="flex flex-col md:flex-row md:justify-between md:flex-wrap">
+						<Coach
+							coach="JENAE JUDGE (OWNER)"
+							url="/jenae.jpg"
+							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+						/>
+						<Coach
+							coach="AMY POWERS"
+							url="/amy.jpg"
+							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+						/>
+						<Coach
+							coach="MICHELLE SABEDRA"
+							url="/michelle.jpg"
+							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+						/>
+						<Coach
+							coach="ANDREW EYEMAN"
+							url="/andrew.jpg"
+							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+						/>
+					</div>
+				</div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+				<hr className="my-10 border-stone-600"/>
+				<div className="my-8 w-full md:px-72 lg:px-36 2xl:px-96">
+					<div className="w-full flex justify-center">
+						<h2 className='text-[#D83728] py-8 text-2xl md:text-5xl'>DISCOVER YOUR BEST YOU</h2>
+					</div>
+					<div className="flex flex-col my-4 mx-36 2xl:mb-8">
+						<label className="text-stone-300 pl-2 text-2xl mb-2">NAME</label>
+						<input className="w-full h-10 rounded-lg" />
+					</div>
+					<div className="flex flex-col my-4 mx-36 2xl:mb-8">
+						<label className="text-stone-300 pl-2 text-2xl mb-2">EMAIL</label>
+						<input className="w-full h-10 rounded-lg" />
+					</div>
+					<div className="flex flex-col my-4 mx-36 2xl:mb-8">
+						<label className="text-stone-300 pl-2 text-2xl mb-2">PHONE</label>
+						<input className="w-full h-10 rounded-lg" />
+					</div>
+					<div className="flex flex-col my-4 mx-36 2xl:mb-8">
+						<label className="text-stone-300 pl-2 text-2xl mb-2">GOALS</label>
+						<input multiple className="w-full h-16 md:h-32 rounded-lg" />
+					</div>
+					<div className="md:px-36">
+						<button ref={submitButton} id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-900 md:text-3xl">START YOUR JOURNEY</button>
+					</div>
+				</div>
+			{!submitInView ? 
+			<button className="fixed bg-[#D83728] shadow-lg rounded-lg w-24 h-12 bottom-12 right-8 leading-4 text-stone-900 md:w-40 md:h-20 md:text-2xl" onClick={goToForm}>START YOUR JOURNEY</button>
+			: <></>}
     </main>
   )
 }
