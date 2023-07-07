@@ -48,25 +48,25 @@ export default function Home() {
 				<div className='text-4xl text-stone-50 pt-20 md:text-7xl z-10'>RISE</div>
 				<div className='text-4xl text-stone-50 md:text-7xl z-10'>BOOTCAMP</div>
 				<h2 className='text-[#D83728] py-8 text-2xl md:text-5xl z-10'>WE RISE TOGETHER</h2>
-				<Image src="/nextjs-github-pages/rise-logo.png" alt="rise bootcamp" className="absolute top-8 left-[50%] -translate-x-[50%]" width={300} height={250}/>
+				<Image src="/rise-logo.png" alt="rise bootcamp" className="absolute top-8 left-[50%] -translate-x-[50%]" width={300} height={250}/>
 			</div>
 			
 			<div className="w-full md:pt-20 lg:px-36 2xl:px-[34rem]" onScroll={() => console.log("scrolling main")}>
 				<div className="w-full md:flex md:flex-row md:justify-between md:flex-wrap">
 					<Testimonial 
-						url="/nextjs-github-page/joy.jpg"
+						url="/joy.jpg"
 						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 					/>			
 					<Testimonial 
-						url="/nextjs-github-page/drew.jpg"
+						url="/drew.jpg"
 						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 					/>			
 					<Testimonial 
-						url="/nextjs-github-page/idk.jpg"
+						url="/idk.jpg"
 						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 					/>			
 					<Testimonial 
-						url="/nextjs-github-page/tamika.jpg"
+						url="/tamika.jpg"
 						testimonial="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 					/>			
 				</div>
@@ -131,22 +131,22 @@ export default function Home() {
 					<div className="flex flex-col md:flex-row md:justify-between md:flex-wrap">
 						<Coach
 							coach="JENAE JUDGE (OWNER)"
-							url="/nextjs-github-page/jenae.jpg"
+							url="/jenae.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 						/>
 						<Coach
 							coach="AMY POWERS"
-							url="/nextjs-github-page/amy.jpg"
+							url="/amy.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 						/>
 						<Coach
 							coach="MICHELLE SABEDRA"
-							url="/nextjs-github-page/michelle.jpg"
+							url="/michelle.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 						/>
 						<Coach
 							coach="ANDREW EYEMAN"
-							url="/nextjs-github-page/andrew.jpg"
+							url="/andrew.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
 						/>
 					</div>
