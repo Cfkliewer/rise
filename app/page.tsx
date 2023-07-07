@@ -125,8 +125,7 @@ export default function Home() {
 							</div>
 					</div>
 				</div>
-				<hr className="mb-10 border-stone-600"/>
-				<div className=" w-full flex flex-col items-center lg:px-72 2xl:px-[32rem] bg-stone-900">
+				<div className="w-full pt-10 flex flex-col items-center lg:px-72 2xl:px-[32rem] bg-stone-900">
 					<div className="text-3xl md:text-5xl text-stone-50 md:my-8 md:mb-12">COACHES</div>	
 					<div className="flex flex-col md:flex-row md:justify-between md:flex-wrap">
 						<Coach
@@ -151,9 +150,8 @@ export default function Home() {
 						/>
 					</div>
 				</div>
-
 				<hr className="my-10 border-stone-600"/>
-				<div className="my-8 w-full md:px-72 lg:px-36 2xl:px-96">
+				<div className="my-8 w-full md:px-72 lg:px-36 2xl:px-96 bg-stone-900">
 					<div className="w-full flex justify-center">
 						<h2 className='text-[#D83728] py-8 text-2xl md:text-5xl'>DISCOVER YOUR BEST YOU</h2>
 					</div>
