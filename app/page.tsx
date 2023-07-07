@@ -51,7 +51,7 @@ export default function Home() {
 				<Image src="/rise-logo.png" alt="rise bootcamp" className="absolute top-8 left-[50%] -translate-x-[50%]" width={300} height={250}/>
 			</div>
 			
-			<div className="w-full md:pt-20 lg:px-36 2xl:px-[34rem]" onScroll={() => console.log("scrolling main")}>
+			<div className="w-full md:pt-20 lg:px-36 2xl:px-[34rem] bg-stone-900" onScroll={() => console.log("scrolling main")}>
 				<div className="w-full md:flex md:flex-row md:justify-between md:flex-wrap">
 					<Testimonial 
 						url="/joy.jpg"
@@ -71,7 +71,7 @@ export default function Home() {
 					/>			
 				</div>
 				<hr className="mb-10 mt-10 2xl:mt-32 border-stone-600 md:px-12"/>
-				<div className="w-full flex flex-col items-center px-4 pb-12 2xl:pb-24">
+				<div className="w-full flex flex-col items-center px-4 pb-12 2xl:pb-24 bg-stone-900">
 					<div className="text-3xl md:text-5xl text-stone-50 my-8">PRICING</div>	
 					<div className="flex relative overflow-hidden flex-row justify-between items-center w-full my-4 px-2 md:px-12 lg:px-24 2xl:px-72 bg-[#D83728] rounded-lg py-8">
 						<div className="flex flex-col justify-center">
@@ -126,7 +126,7 @@ export default function Home() {
 					</div>
 				</div>
 				<hr className="mb-10 border-stone-600"/>
-				<div className=" w-full flex flex-col items-center lg:px-72 2xl:px-[32rem]">
+				<div className=" w-full flex flex-col items-center lg:px-72 2xl:px-[32rem] bg-stone-900">
 					<div className="text-3xl md:text-5xl text-stone-50 md:my-8 md:mb-12">COACHES</div>	
 					<div className="flex flex-col md:flex-row md:justify-between md:flex-wrap">
 						<Coach
