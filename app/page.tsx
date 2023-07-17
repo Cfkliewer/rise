@@ -41,9 +41,8 @@ export default function Home() {
 	}
 
   return (
-    <main id="main" className={`flex min-h-screen flex-col items-center bg-stone-900 overflow-y-hidden w-screen`}>
+    <main id="main" className={`flex min-h-screen flex-col items-center bg-stone-900 overflow-x-hidden`}>
 			<meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 			<link href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap" rel="stylesheet"/>
@@ -174,7 +173,7 @@ export default function Home() {
 						<ScheduleDay day="S"/>
 					</div>
 				</div>
-				<div className="w-full pt-10 flex flex-col items-center md:px-24 3xl:px-72 bg-stone-900">
+				<div className="w-full pt-10 flex flex-col items-center px-0 md:px-24 3xl:px-72 bg-stone-900">
 					<div className="text-4xl md:text-5xl text-stone-50 md:my-8 md:mb-12 3xl:mb-36">COACHES</div>	
 					<div className="grid grid-rows-4 md:grid-rows-2 md:grid-cols-2 gap-4 md:gap-24 ">
 						<Coach
