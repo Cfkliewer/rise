@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Coach } from "./components/coach";
 import { Testimonial } from "./components/testimonial";
 import Image from 'next/image';
@@ -45,7 +45,7 @@ export default function Home() {
 			<meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
-			<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="crossorigin" />
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 			<link href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap" rel="stylesheet"/>
 
 			{/*<Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-P3D2KXSG92"></Script>
@@ -85,23 +85,23 @@ export default function Home() {
 						url="/joy.jpg"
 					/>			
 					<div className="flex justify-center items-center p-12">
-						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">The coaches ensure everyone (all skill levels) have a successful and enjoyable experience every session. The bonus is all of the "strangers" you meet the first few days that instantly become your biggest cheerleaders.</p><div className="w-full text-right"><i>- Kym Manning</i></div></div>
+						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">The coaches ensure everyone (all skill levels) have a successful and enjoyable experience every session. The bonus is all of the &quot;strangers&quot; you meet the first few days that instantly become your biggest cheerleaders.</p><div className="w-full text-right"><i>- Kym Manning</i></div></div>
 					</div>
 					<div className="hidden sm:block 2xl:hidden flex justify-center items-center p-12">
-						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">I initially signed up for a six-week bootcamp to feel a bit more confident in the dress I was wearing in my best friend's wedding. I almost didn't go inside the first day but I'm glad I did! The coaches helped push towards my goals by supporting and encouraging me in the gym AND in life.</p><div className="w-full text-right"><i>- Lindsay Steele</i></div></div>
+						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">I initially signed up for a six-week bootcamp to feel a bit more confident in the dress I was wearing in my best friend&apos;s wedding. I almost didn&apos;t go inside the first day but I&apos;m glad I did! The coaches helped push towards my goals by supporting and encouraging me in the gym AND in life.</p><div className="w-full text-right"><i>- Lindsay Steele</i></div></div>
 					</div>
 					<Testimonial 
 						url="/drew.jpg"
 					/>			
 					<div className="block sm:hidden 2xl:block flex justify-center items-center p-12">
-						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">I initially signed up for a six-week bootcamp to feel a bit more confident in the dress I was wearing in my best friend's wedding. I almost didn't go inside the first day but I'm glad I did! The coaches helped push towards my goals by supporting and encouraging me in the gym AND in life.</p><div className="w-full text-right"><i>- Lindsay Steele</i></div></div>
+						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">I initially signed up for a six-week bootcamp to feel a bit more confident in the dress I was wearing in my best friend&apos;s wedding. I almost didn&apos;t go inside the first day but I&apos;m glad I did! The coaches helped push towards my goals by supporting and encouraging me in the gym AND in life.</p><div className="w-full text-right"><i>- Lindsay Steele</i></div></div>
 					</div>
 					<Testimonial 
 						url="/tamika.jpg"
 					/>			
 					<div className="flex justify-center items-center p-12">
 						<p className="text-stone-50 text-2xl"></p>
-						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">When I first inquired about Rise, I honestly didn't think I would be able to participate. I have a past medical history that includes multiple orthopedic surgeries. However, all of the coaches have assisted me with modifications when needed to keep my workout safe, pain free and still very effective! In fact, I'm now able to do many movements completely pain free!</p><div className="w-full text-right"><i>- Casey Campbell</i></div></div>
+						<div className="text-stone-50 text-lg md:text-xl xl:text-2xl"><p className="text-center">When I first inquired about Rise, I honestly didn&apos;t think I would be able to participate. I have a past medical history that includes multiple orthopedic surgeries. However, all of the coaches have assisted me with modifications when needed to keep my workout safe, pain free and still very effective! In fact, I&apos;m now able to do many movements completely pain free!</p><div className="w-full text-right"><i>- Casey Campbell</i></div></div>
 					</div>
 				</div>
 				<hr className="mb-10 mt-10 2xl:mt-32 border-stone-600 md:px-12"/>
@@ -257,6 +257,12 @@ export default function Home() {
   )
 }
 
+
+interface Props {
+	address: any;
+	lat: any;
+	lng: any;
+}
 
 const LocationPin: FC<Props> = ({address, lat, lng}) => {
 	return (
