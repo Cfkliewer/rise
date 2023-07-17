@@ -180,24 +180,29 @@ export default function Home() {
 							coach="JENAE JUDGE (OWNER)"
 							url="/jenae.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+							classes={'bg-[#1c1917]'}
+							textClasses={'bg-[#D83728]'}
 						/>
 						<Coach
 							coach="AMY POWERS"
 							url="/amy.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
-							red
+							classes={'bg-[#D83728]'}
+							textClasses={'bg-[#1c1917]'}
 						/>
 						<Coach
 							coach="MICHELLE SABEDRA"
 							url="/michelle.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
-							red={!isMobile}
+							classes={'bg-[#1c1917] md:bg-[#D83728]'}
+							textClasses={'text-[#D83728] md:text-[#1c1917]'}
 						/>
 						<Coach
 							coach="ANDREW EYEMAN"
 							url="/andrew.jpg"
 							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
-							red={isMobile}
+							classes={'bg-[#D83728] md:bg-[#1c1917]'}
+							textClasses={'text-[#1c1917] md:text-[#D83728]'}
 						/>
 					</div>
 				</div>

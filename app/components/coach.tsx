@@ -1,17 +1,19 @@
 import Image from 'next/image'
 import { FC } from 'react';
+import classNames from 'classnames'
 
 interface Props {
 	coach: string;
 	url: string;
 	text: string;
-	red?: boolean;
+	classes?: any;
+	textClasses?: any;
 }
 
-export const Coach: FC<Props> = ({coach, url, text, red = false}) => {
+export const Coach: FC<Props> = ({coach, url, text, classes, textClasses}) => {
 	return (
-		<div className='md:rounded-lg p-8' style={{backgroundColor: red ? "#D83728" : "#1c1917"}}>
-			<div className="mb-12 text-2xl text-[#D83728] md:text-3xl" style={{color: red ? "#1c1917" : "#D83728"}}>{coach}</div>
+		<div className={classNames('md:rounded-lg p-8', classes)}>
+			<div className={classNames('mb-12 text-2xl md:text-3xl', textClasses)}>{coach}</div>
 			<div className='grid grid-rows-2 lg:grid-cols-2 lg:grid-rows-1'>
 				<div className='rounded-lg w-full h-60 md:h-72 lg:96 my-2 relative'>
 					<Image priority src={url} alt="placeholder" className='rounded-lg' layout='fill' objectFit='contain'/> 
