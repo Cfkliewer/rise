@@ -74,7 +74,7 @@ export default function Home() {
 				</div>
 				<h2 className='text-stone-50 py-8 text-6xl md:text-9xl z-10 pt-40' style={{textShadow: '2px 2px 3px #1C1917'}}>RISE TOGETHER</h2>
 				<div className="px-8 md:px-8 2xl:px-36 z-10">
-					<button id="" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl px-8">SEE OUR SUCCESS ></button>
+					<button id="" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl px-8">SEE OUR SUCCESS &gt;</button>
 				</div>
 			</div>
 			
