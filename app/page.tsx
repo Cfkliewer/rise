@@ -10,10 +10,43 @@ import GoogleMap from 'google-map-react'
 import Script from "next/script";
 import { ScheduleDay } from "./components/scheduleDay";
 import {isMobile} from 'react-device-detect'
+import {motion, AnimatePresence} from 'framer-motion'
+import {wrap} from 'popmotion';
+
+
+
 
 export default function Home() {
 	const submitButton = useRef(null);
 	const [submitInView, setSubmitInView] = useState(false)
+	const days = ["SS","M","T","W","TH","F","S"];
+	const [[page, direction], setPage] = useState([0, 0]);
+
+	const dayIndex = wrap(0, days.length, page)
+
+	const paginate = (newDirection: number) => {
+		setPage([page + newDirection, newDirection])
+	}
+
+	const getDayOfWeek = (dayIdx) => {
+		switch(days[dayIdx]) {
+			case "M":
+				return "Monday"
+			case "T":
+				return "Tuesday"
+			case "W":
+				return "Wednesday"
+			case "TH":
+				return "Thursday"
+			case "F":
+				return "Friday"
+			case "S":
+				return "Saturday"
+			case "SS":
+				return "Sunday"
+
+		}
+	}
 
 	const isInView = () => {
 		const rect = document.getElementById("submit")?.getBoundingClientRect();	
@@ -77,8 +110,8 @@ export default function Home() {
 				</div>
 			</div>
 			
-			<div className="w-full md:pt-20 px-4 lg:px-24 xl:px-24 2xl:px-36 3xl:px-[30rem] bg-stone-900" onScroll={() => console.log("scrolling main")}>
-				<h1 className="text-[#D83728] text-3xl mt-24 mb-2 lg:px-10">SUCCESS STORIES</h1>
+			<div className="w-full md:pt-20 px-4 lg:px-24 xl:px-24 2xl:px-36 3xl:px-[30rem] bg-stone-900">
+				<button onClick={() => goToForm()}><h1 className="text-[#D83728] text-3xl mt-24 mb-2 lg:px-10">Sign Up Now!</h1></button>
 				<div className="w-full md:grid sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 md:gap-2">
 					<Testimonial 
 						url="/joy.jpg"
@@ -118,7 +151,7 @@ export default function Home() {
 						</div>
 						<div className="flex flex-col items-center">
 							<div className="text-stone-50 text-3xl pr-4 md:text-4xl pb-2">$200</div>
-							<button className="bg-amber-300 rounded-lg hidden lg:block px-4 py-2">Sign up now!</button>
+							<button className="bg-amber-300 rounded-lg hidden lg:block px-4 py-2" onClick={() => goToForm()}>Sign up now!</button>
 						</div>
 						<div
 							className="absolute transform -rotate-45 text-md md:text-2xl bg-amber-300 text-center text-stone-900 font-semibold py-1 left-[-4.5em] top-[.5em] w-[200px] md:left-[-3em] md:top-[1em] md:w-[230px]">
@@ -140,7 +173,7 @@ export default function Home() {
 				</div>
 				</div>
 
-				<div className="w-full flex flex-col items-center pt-10 pb-12 px-4 2xl:px-72 bg-stone-50">
+				<div className="w-full flex flex-col items-center pt-10 pb-12 px-4 3xl:px-72 bg-stone-50">
 					<div className="text-4xl md:text-5xl text-stone-900 mt-8 mb-24">DISCOUNTS</div>	
 					<div className="flex lg:flex-row flex-col w-full mb-12 justify-around 2xl:px-24">
 							<div className="flex flex-row justify-between px-12 lg:px-0 lg:justify-end lg:items-center lg:flex-col flex-1">
@@ -161,16 +194,26 @@ export default function Home() {
 							</div>
 					</div>
 				</div>
-				<div className="w-full flex flex-col items-center pt-10 pb-24 px-4 2xl:px-72 bg-[#D83728]">
+				<div className="w-full flex flex-col items-center pt-10 pb-24 px-4 3xl:px-72 bg-[#D83728]">
 					<div className="text-4xl md:text-5xl text-stone-900 mt-8 mb-24">SCHEDULE</div>	
-					<div className="grid grid-cols-7 w-full">
-						<ScheduleDay day="SS" />
-						<ScheduleDay day="M" />
-						<ScheduleDay day="T" />
-						<ScheduleDay day="W" />
-						<ScheduleDay day="TH" />
-						<ScheduleDay day="F" />
-						<ScheduleDay day="S"/>
+					<div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 w-full">
+						<div className="flex flex-col items-center">
+							<div className="flex flex-row items-center justify-center">
+								<button className="text-5xl text-stone-900" onClick={() => paginate(-1)}>&lt;</button>
+								<h1 className="text-xl 2xl:text-5xl pb-4 pt-4 px-8">{getDayOfWeek(dayIndex)}</h1>
+								<button className="text-5xl text-stone-900" onClick={() => paginate(1)}>&gt;</button>
+							</div>
+							<div className="w-full relative overflow-x-hidden">
+									<AnimatePresence initial={false} custom={direction}>
+										<ScheduleDay day={days[dayIndex] as any} custom={direction}/>
+									</AnimatePresence>
+							</div>
+						</div>
+						<div className="flex flex-col items-center bg-amber-300 rounded-lg">
+							<h1 className="text-xl 2xl:text-5xl pb-4 pt-8">Bootcamp</h1>
+							<div className="text-lg 2xl:text-2xl py-2">9:00am - Saturday</div>
+							<div className="text-lg 2xl:text-2xl py-2">6:15pm - Tuesday & Thursday</div>
+						</div>
 					</div>
 				</div>
 				<div className="w-full pt-10 flex flex-col items-center px-0 md:px-24 3xl:px-72 bg-stone-900">
@@ -232,25 +275,27 @@ export default function Home() {
 						</div>
 						</div>
 						<div className="w-full">
-							<div className="flex flex-col my-4 mx-8 2xl:mb-8">
-								<label className="text-stone-300 pl-2 text-2xl mb-2">NAME</label>
-								<input className="w-full h-10 rounded-lg" />
-							</div>
-							<div className="flex flex-col my-4 mx-8 2xl:mb-8">
-								<label className="text-stone-300 pl-2 text-2xl mb-2">EMAIL</label>
-								<input className="w-full h-10 rounded-lg" />
-							</div>
-							<div className="flex flex-col my-4 mx-8 2xl:mb-8">
-								<label className="text-stone-300 pl-2 text-2xl mb-2">PHONE</label>
-								<input className="w-full h-10 rounded-lg" />
-							</div>
-							<div className="flex flex-col my-4 mx-8 2xl:mb-8">
-								<label className="text-stone-300 pl-2 text-2xl mb-2">GOALS</label>
-								<input multiple className="w-full h-16 md:h-32 rounded-lg" />
-							</div>
-							<div className="px-8 md:px-8 ">
-								<button ref={submitButton} id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl">START YOUR JOURNEY</button>
-							</div>
+							<form action="mailto:cfkliewer@gmail.com" method="post" encType="text/plain">
+								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
+									<label className="text-stone-300 pl-2 text-2xl mb-2">NAME</label>
+									<input className="w-full h-10 rounded-lg" />
+								</div>
+								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
+									<label className="text-stone-300 pl-2 text-2xl mb-2">EMAIL</label>
+									<input className="w-full h-10 rounded-lg" />
+								</div>
+								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
+									<label className="text-stone-300 pl-2 text-2xl mb-2">PHONE</label>
+									<input className="w-full h-10 rounded-lg" />
+								</div>
+								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
+									<label className="text-stone-300 pl-2 text-2xl mb-2">GOALS</label>
+									<input multiple className="w-full h-16 md:h-32 rounded-lg" />
+								</div>
+								<div className="px-8 md:px-8 ">
+									<button ref={submitButton} id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl">START YOUR JOURNEY</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
