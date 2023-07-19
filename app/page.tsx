@@ -7,10 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import colors from 'tailwindcss/colors'
 import GoogleMap from 'google-map-react'
-import Script from "next/script";
 import { ScheduleDay } from "./components/scheduleDay";
-import {isMobile} from 'react-device-detect'
-import {motion, AnimatePresence} from 'framer-motion'
+import { AnimatePresence} from 'framer-motion'
 import {wrap} from 'popmotion';
 
 
@@ -28,7 +26,7 @@ export default function Home() {
 		setPage([page + newDirection, newDirection])
 	}
 
-	const getDayOfWeek = (dayIdx) => {
+	const getDayOfWeek = (dayIdx: any) => {
 		switch(days[dayIdx]) {
 			case "M":
 				return "Monday"
