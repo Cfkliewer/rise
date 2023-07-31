@@ -26,6 +26,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		}
 	})
 
+	console.log("user")
+	console.log(process.env.EMAIL_USER)
+	console.log("pass is")
+	console.log(process.env.EMAIL_PASS)
+
 	if(req.method === 'POST') {
 		transporter.sendMail(message, (err, info) => {
 			console.log("Error sending mail")
