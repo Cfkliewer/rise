@@ -19,7 +19,7 @@ export const Coach: FC<Props> = ({coach, url, text, classes, textClasses}) => {
 				<div className="text-stone-50 md:text-xl w-full text-center flex flex-col items-center text-xl lg:text-2xl 3xl:text-2xl flex-1">
 					<div className={classNames('mb-12 mt-8 text-3xl xl:text-5xl', textClasses)}>{coach}</div>
 					<ul>
-						{text.map(t => <li><span className='mr-2'>&#8226;</span>{t}</li>)}
+						{text.map((t, i) => <li key={t + i}><span className='mr-2'>&#8226;</span>{t}</li>)}
 					</ul>
 			</div>
 		</div>

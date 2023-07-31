@@ -29,7 +29,7 @@ export default function Home() {
 		goals: ''
 	})
 
-	const handleChange = (e) => {
+	const handleChange = (e: any) => {
 		setFormValues(prevState => {
 			return {
 				...prevState,
@@ -74,7 +74,7 @@ export default function Home() {
 		})
 	}
 
-	const sendEmail = async (e) => {
+	const sendEmail = async (e: any) => {
 		e.preventDefault();
 
 		await axios({
@@ -312,7 +312,7 @@ export default function Home() {
 						</div>
 						<div className="h-1/2 rounded-xl">
 							<GoogleMap
-								bootstrapURLKeys={{key: process.env.GOOGLE_MAPS_KEY}}
+								bootstrapURLKeys={{key: process.env.GOOGLE_MAPS_KEY ?? ""}}
 								defaultCenter={{lat: 35.61621044432252, lng: -97.50262312007501}}
 								defaultZoom={13}
 							>
