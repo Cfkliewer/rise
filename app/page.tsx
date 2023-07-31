@@ -4,13 +4,14 @@ import { Coach } from "./components/coach";
 import { Testimonial } from "./components/testimonial";
 import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import colors from 'tailwindcss/colors'
 import GoogleMap from 'google-map-react'
 import { ScheduleDay } from "./components/scheduleDay";
 import { AnimatePresence} from 'framer-motion'
 import {wrap} from 'popmotion';
-
+import axios from 'axios'
+import 'dotenv/config'
 
 
 
@@ -18,7 +19,25 @@ export default function Home() {
 	const submitButton = useRef(null);
 	const [submitInView, setSubmitInView] = useState(false)
 	const days = ["SS","M","T","W","TH","F","S"];
-	const [[page, direction], setPage] = useState([0, 0]);
+	const [[page, direction], setPage] = useState([new Date().getDay(), 0]);
+	const [emailSent, setEmailSent] = useState(false)
+
+	const [formValues, setFormValues] = useState({
+		name: '',
+		email: '',
+		phone: '',
+		goals: ''
+	})
+
+	const handleChange = (e) => {
+		setFormValues(prevState => {
+			return {
+				...prevState,
+				[e.target.id]: e.target.value
+			}
+		});
+	}
+
 
 	const dayIndex = wrap(0, days.length, page)
 
@@ -44,6 +63,38 @@ export default function Home() {
 				return "Sunday"
 
 		}
+	}
+
+	const resetForm = () => {
+		setFormValues({
+			name: '',
+			email: '',
+			phone: '',
+			goals: ''
+		})
+	}
+
+	const sendEmail = async (e) => {
+		e.preventDefault();
+
+		await axios({
+			method: 'post',
+			url: 'api/send-mail',
+			data: {
+				name: formValues.name,
+				email: formValues.email,
+				phone: formValues.phone,
+				goals: formValues.goals
+			}
+		}).then(() => {
+			setEmailSent(true);	
+			resetForm()
+			setTimeout(() => setEmailSent(false), 5000);
+		}).catch(() => {
+			setEmailSent(true);	
+			resetForm()
+			setTimeout(() => setEmailSent(false), 5000);
+		});
 	}
 
 	const isInView = () => {
@@ -99,17 +150,16 @@ export default function Home() {
 				<Image src="/banner-xxs.png" priority alt="rise bootcamp" className="md:hidden opacity-80 absolute top-0 w-full h-[50vh]" width={4000} height={20}/>
 				<div className="h-1/4 absolute top-[75%] w-full bg-gradient-to-t from-stone-900 via-[rgba(28,25,23,.90)] to-transparent">
 				</div>
-				<div className="absolute top-4 lg:top-8 2xl:top-16 right-0 lg:right-4 2xl:right-12 w-24 lg:w-48 2xl:w-64 h-16 md:h-24 md:w-36 lg:h-32">
-					<Image src="/rise-white.png" priority alt="rise bootcamp" layout="fill" objectFit="contain" className="w-full h-full"/>
+				<div className="absolute top-4 lg:top-8 2xl:top-16 right-0 lg:right-4 2xl:right-12 w-24 lg:w-48 2xl:w-64 h-16 md:h-24 md:w-36 lg:h-32"> <Image src="/rise-white.png" priority alt="rise bootcamp" layout="fill" objectFit="contain" className="w-full h-full"/>
 				</div>
 				<h2 className='text-stone-50 py-8 text-6xl md:text-9xl z-10 pt-40' style={{textShadow: '2px 2px 3px #1C1917'}}>RISE TOGETHER</h2>
 				<div className="px-8 md:px-8 2xl:px-36 z-10">
-					<button id="" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl px-8">{`SEE OUR SUCCESS >`}</button>
+					<button id="" onClick={() => goToForm()} className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl px-8">{`SIGN UP NOW! >`}</button>
 				</div>
 			</div>
 			
 			<div className="w-full md:pt-20 px-4 lg:px-24 xl:px-24 2xl:px-36 3xl:px-[30rem] bg-stone-900">
-				<button onClick={() => goToForm()}><h1 className="text-[#D83728] text-3xl mt-24 mb-2 lg:px-10">Sign Up Now!</h1></button>
+				<button onClick={() => goToForm()}><h1 className="text-[#D83728] text-3xl mt-24 mb-2 lg:px-10">SEE OUR SUCCESS</h1></button>
 				<div className="w-full md:grid sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 md:gap-2">
 					<Testimonial 
 						url="/joy.jpg"
@@ -198,7 +248,7 @@ export default function Home() {
 						<div className="flex flex-col items-center">
 							<div className="flex flex-row items-center justify-center">
 								<button className="text-5xl text-stone-900" onClick={() => paginate(-1)}>&lt;</button>
-								<h1 className="text-xl 2xl:text-5xl pb-4 pt-4 px-8">{getDayOfWeek(dayIndex)}</h1>
+								<h1 className="text-3xl 2xl:text-5xl pb-4 pt-4 px-8">{getDayOfWeek(dayIndex)}</h1>
 								<button className="text-5xl text-stone-900" onClick={() => paginate(1)}>&gt;</button>
 							</div>
 							<div className="w-full relative overflow-x-hidden">
@@ -207,41 +257,43 @@ export default function Home() {
 									</AnimatePresence>
 							</div>
 						</div>
-						<div className="flex flex-col items-center bg-amber-300 rounded-lg">
-							<h1 className="text-xl 2xl:text-5xl pb-4 pt-8">Bootcamp</h1>
-							<div className="text-lg 2xl:text-2xl py-2">9:00am - Saturday</div>
-							<div className="text-lg 2xl:text-2xl py-2">6:15pm - Tuesday & Thursday</div>
+						<div className="w-full h-full flex justify-center items-center">
+							<div className="flex flex-col h-2/3 items-center bg-amber-300 rounded-lg w-full">
+								<h1 className="text-3xl 2xl:text-5xl pb-4 pt-8">Bootcamp</h1>
+								<div className="text-2xl 2xl:text-3xl py-2">9:00am - Saturday</div>
+								<div className="text-2xl 2xl:text-3xl py-2">6:15pm - Tuesday & Thursday</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div className="w-full pt-10 flex flex-col items-center px-0 md:px-24 3xl:px-72 bg-stone-900">
 					<div className="text-4xl md:text-5xl text-stone-50 md:my-8 md:mb-12 3xl:mb-36">COACHES</div>	
-					<div className="grid grid-rows-4 md:grid-rows-2 md:grid-cols-2 gap-4 md:gap-24 ">
+					<div className="grid grid-rows-4 w-full md:grid-rows-2 md:grid-cols-2 gap-4 md:gap-24 ">
 						<Coach
-							coach="JENAE JUDGE (OWNER)"
+							coach="JENAE JUDGE"
 							url="/jenae.jpg"
-							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+							text={['Owner/Head Coach', 'CrossFit Level 2 Trainer', 'Nutrition 1 Certificate', 'Gymnastics Certificate']}
 							classes={'bg-[#1c1917]'}
 							textClasses={'text-[#D83728]'}
 						/>
 						<Coach
 							coach="AMY POWERS"
 							url="/amy.jpg"
-							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+							text={['CrossFit Level 1 Trainer', 'Gymnastics Certificate']}
 							classes={'bg-[#D83728]'}
 							textClasses={'text-[#1c1917]'}
 						/>
 						<Coach
 							coach="MICHELLE SABEDRA"
 							url="/michelle.jpg"
-							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+							text={['CrossFit Level 1 Trainer', 'Weightlifting Certificate', 'Running Certificate']}
 							classes={'bg-[#1c1917] md:bg-[#D83728]'}
 							textClasses={'text-[#D83728] md:text-[#1c1917]'}
 						/>
 						<Coach
 							coach="ANDREW EYEMAN"
 							url="/andrew.jpg"
-							text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+							text={['CrossFit Level 1 Trainer']}
 							classes={'bg-[#D83728] md:bg-[#1c1917]'}
 							textClasses={'text-[#1c1917] md:text-[#D83728]'}
 						/>
@@ -260,7 +312,7 @@ export default function Home() {
 						</div>
 						<div className="h-1/2 rounded-xl">
 							<GoogleMap
-								bootstrapURLKeys={{key: "AIzaSyBfBZ3qttDM0QJ-s1Jt02sN6_oIjEzeFzA"}}
+								bootstrapURLKeys={{key: process.env.GOOGLE_MAPS_KEY}}
 								defaultCenter={{lat: 35.61621044432252, lng: -97.50262312007501}}
 								defaultZoom={13}
 							>
@@ -273,25 +325,25 @@ export default function Home() {
 						</div>
 						</div>
 						<div className="w-full">
-							<form action="mailto:cfkliewer@gmail.com" method="post" encType="text/plain">
+							<form onSubmit={sendEmail}>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">NAME</label>
-									<input className="w-full h-10 rounded-lg" />
+									<input id="name" onChange={handleChange} value={formValues.name} className="w-full h-10 rounded-lg pl-4" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">EMAIL</label>
-									<input className="w-full h-10 rounded-lg" />
+									<input id="email" onChange={handleChange} value={formValues.email} className="w-full h-10 rounded-lg pl-4" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">PHONE</label>
-									<input className="w-full h-10 rounded-lg" />
+									<input id="phone" onChange={handleChange} value={formValues.phone} className="w-full h-10 rounded-lg pl-4" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">GOALS</label>
-									<input multiple className="w-full h-16 md:h-32 rounded-lg" />
+									<textarea id="goals" onChange={handleChange} value={formValues.goals} className="w-full h-16 md:h-32 rounded-lg pl-4 pt-2" />
 								</div>
 								<div className="px-8 md:px-8 ">
-									<button ref={submitButton} id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl">START YOUR JOURNEY</button>
+									<button ref={submitButton} type="submit" id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl">START YOUR JOURNEY</button>
 								</div>
 							</form>
 						</div>
@@ -299,6 +351,22 @@ export default function Home() {
 				</div>
 			{!submitInView ? 
 			<button className="fixed bg-[#D83728] shadow-lg rounded-lg w-24 h-12 bottom-12 right-8 leading-4 text-stone-50 md:w-40 md:h-20 md:text-2xl" onClick={goToForm}>START YOUR JOURNEY</button>
+			: <></>}
+			{emailSent ? 
+			<div className="fixed bg-stone-200 shadow-lg rounded-lg p-4 w-96 h-32 md:w-96 md:h-48 bottom-12 right-8 leading-4 text-stone-800 flex flex-row justify-center items-center">
+				<div>
+					<FontAwesomeIcon icon={faCheckCircle} color="#22c55e" size="3x"/>
+				</div>
+				<div className="flex flex-col text-xl xl:text-2xl ml-4">
+					<div className="mb-2">
+						Your email has been sent!
+					</div>
+					<div>
+						A coach will reach out to you shortly!
+					</div>
+				</div>
+			</div>
+
 			: <></>}
     </main>
   )
@@ -325,3 +393,4 @@ const LocationPin: FC<Props> = ({address, lat, lng}) => {
 		</div>
 	);
 }
+
