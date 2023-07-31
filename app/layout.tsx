@@ -1,5 +1,6 @@
 import './globals.css'
 import { Koulen } from 'next/font/google'
+import {Analytics} from '@vercel/analytics/react';
 
 const koulen = Koulen({weight: ['400'], subsets: ['latin'] })
 
@@ -15,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={koulen.className}>{children}</body>
+      <body className={koulen.className}>
+				{children}
+				<Analytics />
+			</body>
     </html>
   )
 }
