@@ -143,11 +143,11 @@ export default function Home() {
 								`,
 								}}/>*/}
 			
-			<div className='relative flex flex-col justify-center items-center bg-stone-900 w-full h-[35vh] md:h-[50vh]'>
+			<div className='relative flex flex-col justify-center items-center bg-stone-900 w-full h-[40vh] md:h-[50vh]'>
 				<Image src="/banner 2.png" priority alt="rise bootcamp" className="hidden 2xl:block opacity-80 absolute top-0 w-full h-[50vh]" width={4000} height={20}/>
 				<Image src="/banner-md.png" priority alt="rise bootcamp" className="hidden lg:block 2xl:hidden opacity-80 absolute top-0 w-full h-[50vh]" width={4000} height={20}/>
 				<Image src="/banner-md.png" priority alt="rise bootcamp" className="hidden md:block lg:hidden opacity-80 absolute top-0 w-full h-[50vh]" width={4000} height={20}/>
-				<Image src="/banner-xxs.png" priority alt="rise bootcamp" className="md:hidden opacity-80 absolute top-0 w-full h-[35vh]" width={4000} height={20}/>
+				<Image src="/banner-xxs.png" priority alt="rise bootcamp" className="md:hidden opacity-80 absolute top-0 w-full h-[40vh]" width={4000} height={20}/>
 				<div className="h-1/4 absolute top-[75%] w-full bg-gradient-to-t from-stone-900 via-[rgba(28,25,23,.90)] to-transparent">
 				</div>
 				<div className="absolute top-4 lg:top-8 2xl:top-16 right-0 lg:right-4 2xl:right-12 w-24 lg:w-48 2xl:w-64 h-16 md:h-24 md:w-36 lg:h-32"> <Image src="/rise-white.png" priority alt="rise bootcamp" layout="fill" objectFit="contain" className="w-full h-full"/>
