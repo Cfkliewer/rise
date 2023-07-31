@@ -8,10 +8,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 	const data = await req.json();
 	const message = {
 		from: {
-			name: 'web',
-			address: 'ckbizman@gmail.com'
+			name: 'crossfit822.com',
 		},
-		to: "cfkliewer@gmail.com",
+		to: "crossfit822@gmail.com",
 		subject: "lead",
 		html: `<ul>
 						<li>name: ${data.name}</li>
