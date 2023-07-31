@@ -37,9 +37,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			console.log(err)
 
 			console.log(info)
-			return NextResponse.json({success: true})
 			
 		});
 	}
+	return NextResponse.json({success: true})
 }
 
