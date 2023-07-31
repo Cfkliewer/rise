@@ -9,6 +9,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 	const message = {
 		from: {
 			name: 'crossfit822.com',
+			address: 'crossfit822@gmail.com'
 		},
 		to: "crossfit822@gmail.com",
 		subject: "lead",
