@@ -7,6 +7,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 	const data = await req.json();
 	const message = {
+		from: {
+			name: 'web',
+			address: 'ckbizman@gmail.com'
+		},
 		to: "cfkliewer@gmail.com",
 		subject: "lead",
 		html: `<ul>
@@ -26,20 +30,32 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		}
 	})
 
-	console.log("user")
-	console.log(process.env.EMAIL_USER)
-	console.log("pass is")
-	console.log(process.env.EMAIL_PASS)
+	await new Promise((resolve, reject) => {
+		transporter.verify(function (error, success) {
+			if(error) {
+				console.log(error)
+				reject(error);
+			} else {
+				resolve(success)
+			}
+		})
+	});
 
-	if(req.method === 'POST') {
-		transporter.sendMail(message, (err, info) => {
-			console.log("Error sending mail")
-			console.log(err)
+	await new Promise((resolve, reject) => {
+		if(req.method === 'POST') {
+			transporter.sendMail(message, (err, info) => {
+				if(err) {
+					console.log("Error sending mail")
+					console.log(err)
+					reject(err)
+				} else {
+					console.log(info)
+					resolve(info)
+				}
+			});
+		}
+	});
 
-			console.log(info)
-			
-		});
-	}
 	return NextResponse.json({success: true})
 }
 
