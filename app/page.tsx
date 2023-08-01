@@ -264,7 +264,7 @@ export default function Home() {
 						<div className="w-full h-full flex justify-center items-center">
 							<div className="flex flex-col h-2/3 items-center bg-amber-300 rounded-lg w-full">
 								<h1 className="text-3xl 2xl:text-5xl pb-4 pt-8 text-stone-900">Bootcamp</h1>
-								<div className="text-2xl 2xl:text-3xl py-2 text-stone-900">9:00am - Saturday</div>
+								<div className="text-2xl 2xl:text-3xl py-2 text-stone-900">9:15am - Saturday</div>
 								<div className="text-2xl 2xl:text-3xl py-2 text-stone-900">6:15pm - Tuesday & Thursday</div>
 							</div>
 						</div>
