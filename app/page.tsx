@@ -207,16 +207,16 @@ export default function Home() {
 						</div>
 					</div>
 					<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
-						<div className="text-stone-50 text-2xl md:text-3xl">2 DAYS/WEEK CROSSFIT</div>
-						<div className="text-stone-50 text-2xl md:text-3xl">$105/MO</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">3 DAYS/WEEK CROSSFIT</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">$145/MO</div>
 					</div>
 					<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
-						<div className="text-stone-50 text-2xl md:text-3xl">3 DAYS/WEEK CROSSFIT</div>
-						<div className="text-stone-50 text-2xl md:text-3xl">$135/MO</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">4 DAYS/WEEK CROSSFIT</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">$160/MO</div>
 					</div>
 					<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
 						<div className="text-stone-50 text-2xl md:text-3xl">UNLIMITED CROSSFIT</div>
-						<div className="text-stone-50 text-2xl md:text-3xl">$165/MO</div>
+						<div className="text-stone-50 text-2xl md:text-3xl">$175/MO</div>
 					</div>
 				</div>
 				</div>
@@ -230,15 +230,19 @@ export default function Home() {
 							</div>
 							<div className="flex flex-row justify-between px-12 lg:px-0 text-center lg:justify-end lg:items-center lg:flex-col flex-1">
 								<div className="text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">FIRST RESPONDER</div>
-								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">20%</div>
+								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">10%</div>
 							</div>
 							<div className="flex flex-row justify-between px-12 lg:px-0 lg:justify-end lg:items-center lg:flex-col flex-1">
 								<div className="text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">STUDENT</div>
-								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">30%</div>
+								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">10%</div>
 							</div>
 							<div className="flex flex-row justify-between px-12 lg:px-0 lg:justify-end lg:items-center lg:flex-col flex-1">
-								<div className="text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">PRE PAY <span className="lg:block 2xl:inline-block">(6MO+)</span></div>
-								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">10%</div>
+								<div className="text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">SPOUSE</div>
+								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">20%</div>
+							</div>
+							<div className="flex flex-row justify-between px-12 lg:px-0 lg:justify-end lg:items-center lg:flex-col flex-1">
+								<div className="text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">PRE-PAY <span className="lg:block 2xl:inline-block">(6MO+)</span></div>
+								<div className="text-3xl md:text-4xl lg:text-5xl text-[#D83728]">20%</div>
 							</div>
 					</div>
 				</div>
