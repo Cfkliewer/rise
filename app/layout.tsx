@@ -18,6 +18,17 @@ export default function RootLayout({
     <html lang="en">
 			<head>
 				<link rel="icon" href="/rise-logo.png" type="image/png" />
+				<script async src="https://www.googletagmanager.com/gtag/js?id=G-P63TMZ1KR3">
+				</script>
+				<script>
+				{`
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+
+					gtag('config', 'G-P63TMZ1KR3');
+				`}
+				</script>
 			</head>
       <body className={koulen.className}>
 				{children}
