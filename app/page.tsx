@@ -334,19 +334,19 @@ export default function Home() {
 							<form onSubmit={sendEmail}>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">NAME</label>
-									<input id="name" onChange={handleChange} value={formValues.name} className="w-full h-10 rounded-lg pl-4" />
+									<input id="name" onChange={handleChange} value={formValues.name} className="w-full h-10 rounded-lg pl-4 text-stone-800" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">EMAIL</label>
-									<input id="email" onChange={handleChange} value={formValues.email} className="w-full h-10 rounded-lg pl-4" />
+									<input id="email" onChange={handleChange} value={formValues.email} className="w-full h-10 rounded-lg pl-4 text-stone-800" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">PHONE</label>
-									<input id="phone" onChange={handleChange} value={formValues.phone} className="w-full h-10 rounded-lg pl-4" />
+									<input id="phone" onChange={handleChange} value={formValues.phone} className="w-full h-10 rounded-lg pl-4 text-stone-800" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">GOALS</label>
-									<textarea id="goals" onChange={handleChange} value={formValues.goals} className="w-full h-16 md:h-32 rounded-lg pl-4 pt-2" />
+									<textarea id="goals" onChange={handleChange} value={formValues.goals} className="w-full h-16 md:h-32 rounded-lg pl-4 pt-2 text-stone-800" />
 								</div>
 								<div className="px-8 md:px-8 ">
 									<button ref={submitButton} type="submit" id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl">START YOUR JOURNEY</button>
