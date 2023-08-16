@@ -17,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
 			<head>
+				<title>Rise Bootcamp</title>
 				<link rel="icon" href="/rise-logo.png" type="image/png" />
 				<script async src="https://www.googletagmanager.com/gtag/js?id=G-P63TMZ1KR3">
 				</script>
