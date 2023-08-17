@@ -126,7 +126,6 @@ export default function Home() {
 
   return (
     <main id="main" className={`flex min-h-screen flex-col items-center bg-stone-900 overflow-x-hidden`}>
-			<meta charSet="utf-8" />
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 			<link href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap" rel="stylesheet"/>
@@ -154,7 +153,7 @@ export default function Home() {
 				</div>
 				<div className="absolute top-4 lg:top-8 2xl:top-16 right-0 lg:right-4 2xl:right-12 w-24 lg:w-48 2xl:w-64 h-16 md:h-24 md:w-36 lg:h-32"> <Image src="/rise-white.png" priority alt="rise bootcamp" layout="fill" objectFit="contain" className="w-full h-full"/>
 				</div>
-				<h2 className='text-stone-50 py-8 text-6xl md:text-9xl z-10 pt-40' style={{textShadow: '2px 2px 3px #1C1917'}}>RISE TOGETHER</h2>
+				<h1 className='text-stone-50 py-8 text-6xl md:text-9xl z-10 pt-40' style={{textShadow: '2px 2px 3px #1C1917'}}>RISE TOGETHER</h1>
 				<div className="px-8 md:px-8 2xl:px-36 z-10">
 					<button id="" onClick={() => goToForm()} className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl px-8">{`SIGN UP NOW! >`}</button>
 				</div>
