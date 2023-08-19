@@ -135,7 +135,7 @@ export default function Home() {
 	const goToForm = () => {
 		//@ts-ignore
 		submitButton.current?.scrollIntoView({behavior: 'smooth'});
-		document.getElementById("name").focus();
+		document.getElementById("name")?.focus();
 	}
 
   return (
