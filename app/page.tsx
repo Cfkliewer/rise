@@ -23,6 +23,7 @@ export default function Home() {
 	const days = ["SS","M","T","W","TH","F","S"];
 	const [[page, direction], setPage] = useState([new Date().getDay(), 0]);
 	const [emailSent, setEmailSent] = useState(false)
+	const [firstEmail, setFirstEmail] = useState();
 
 	const [formValues, setFormValues] = useState({
 		name: '',
@@ -31,7 +32,12 @@ export default function Home() {
 		goals: ''
 	})
 
+	const [error, setError] = useState<string | undefined>()
+
 	const handleChange = (e: any) => {
+		if(e.target.id == "phone" || e.target.id == "email")
+			setError('');
+
 		setFormValues(prevState => {
 			return {
 				...prevState,
@@ -79,6 +85,13 @@ export default function Home() {
 	const sendEmail = async (e: any) => {
 		e.preventDefault();
 
+		if(!formValues.email && !formValues.phone)
+		{
+			setError('Email or phone is required');
+			return;
+		}
+			
+
 		await axios({
 			method: 'post',
 			url: 'api/send-mail',
@@ -122,6 +135,7 @@ export default function Home() {
 	const goToForm = () => {
 		//@ts-ignore
 		submitButton.current?.scrollIntoView({behavior: 'smooth'});
+		document.getElementById("name").focus();
 	}
 
   return (
@@ -129,21 +143,6 @@ export default function Home() {
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 			<link href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap" rel="stylesheet"/>
-
-			{/*<Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-P3D2KXSG92"></Script>
-			<Script id="google-analytics"
-						strategy="afterInteractive"
-						dangerouslySetInnerHTML={{
-						__html:`
-								window.dataLayer = window.dataLayer || [];
-								function gtag(){dataLayer.push(arguments);}
-								gtag('js', new Date());
-								gtag('config', 'G-P3D2KXSG92', {
-									page_path: window.location.pathname,
-								});
-								`,
-								}}/>*/}
-			
 			<div className='relative flex flex-col justify-center items-center bg-stone-900 w-full h-[40vh] md:h-[50vh]'>
 				<Image src="/banner 2.png" priority alt="rise bootcamp" className="hidden 2xl:block opacity-80 absolute top-0 w-full h-[50vh]" width={4000} height={20}/>
 				<Image src="/banner-md.png" priority alt="rise bootcamp" className="hidden lg:block 2xl:hidden opacity-80 absolute top-0 w-full h-[50vh]" width={4000} height={20}/>
@@ -155,7 +154,7 @@ export default function Home() {
 				</div>
 				<h1 className='text-stone-50 py-8 text-6xl md:text-9xl z-10 pt-40' style={{textShadow: '2px 2px 3px #1C1917'}}>RISE TOGETHER</h1>
 				<div className="px-8 md:px-8 2xl:px-36 z-10">
-					<button id="" onClick={() => goToForm()} className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl px-8">{`SIGN UP NOW! >`}</button>
+					<button id="" onClick={() => goToForm()} className="bg-[#D83728] shadow-lg rounded-lg w-full h-16 md:h-20 leading-4 text-stone-50 md:text-3xl px-8 text-2xl">{`CHANGE MY LIFE`}</button>
 				</div>
 			</div>
 			
@@ -333,29 +332,30 @@ export default function Home() {
 							<form onSubmit={sendEmail}>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">NAME</label>
-									<input id="name" onChange={handleChange} value={formValues.name} className="w-full h-10 rounded-lg pl-4 text-stone-800" />
+									<input id="name" onChange={handleChange} value={formValues.name} className="w-full h-10 rounded-lg pl-4 text-stone-800 focus:outline-4 outline-[#D83728]" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">EMAIL</label>
-									<input id="email" onChange={handleChange} value={formValues.email} className="w-full h-10 rounded-lg pl-4 text-stone-800" />
+									<input id="email" onChange={handleChange} value={formValues.email} className="w-full h-10 rounded-lg pl-4 text-stone-800 focus:outline-4 outline-[#D83728]" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">PHONE</label>
-									<input id="phone" onChange={handleChange} value={formValues.phone} className="w-full h-10 rounded-lg pl-4 text-stone-800" />
+									<input id="phone" onChange={handleChange} value={formValues.phone} className="w-full h-10 rounded-lg pl-4 text-stone-800 focus:outline-4 outline-[#D83728]" />
 								</div>
 								<div className="flex flex-col my-4 mx-8 2xl:mb-8">
 									<label className="text-stone-300 pl-2 text-2xl mb-2">GOALS</label>
-									<textarea id="goals" onChange={handleChange} value={formValues.goals} className="w-full h-16 md:h-32 rounded-lg pl-4 pt-2 text-stone-800" />
+									<textarea id="goals" onChange={handleChange} value={formValues.goals} className="w-full h-16 md:h-32 rounded-lg pl-4 pt-2 text-stone-800 focus:outline-4 outline-[#D83728]" />
 								</div>
+								{!error ? <></> : <p className="text-red-500 ml-8 text-2xl">{error}</p>}
 								<div className="px-8 md:px-8 ">
-									<button ref={submitButton} type="submit" id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 md:text-3xl">START YOUR JOURNEY</button>
+									<button ref={submitButton} type="submit" id="submit" className="bg-[#D83728] shadow-lg rounded-lg mt-4 w-full h-12 leading-4 text-stone-50 text-2xl md:text-3xl">START MY JOURNEY</button>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			{!submitInView ? 
-			<button className="fixed bg-[#D83728] shadow-lg rounded-lg w-24 h-12 bottom-12 right-8 leading-4 text-stone-50 md:w-40 md:h-20 md:text-2xl" onClick={goToForm}>START YOUR JOURNEY</button>
+			<button className="fixed bg-[#D83728] shadow-lg rounded-lg px-2 w-24 h-12 bottom-12 right-8 leading-4 text-stone-50 md:w-40 md:h-20 md:text-2xl" onClick={goToForm}>START MY JOURNEY</button>
 			: <></>}
 			{emailSent ? 
 			<div className="fixed bg-stone-200 shadow-lg rounded-lg p-4 w-96 h-32 md:w-96 md:h-48 bottom-12 right-8 leading-4 text-stone-800 flex flex-row justify-center items-center">
