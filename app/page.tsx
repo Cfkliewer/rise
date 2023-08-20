@@ -154,7 +154,7 @@ export default function Home() {
 				</div>
 				<h1 className='text-stone-50 py-8 text-6xl md:text-9xl z-10 pt-40' style={{textShadow: '2px 2px 3px #1C1917'}}>RISE TOGETHER</h1>
 				<div className="px-8 md:px-8 2xl:px-36 z-10">
-					<button id="" onClick={() => goToForm()} className="bg-[#D83728] shadow-lg rounded-lg w-full h-16 md:h-20 leading-4 text-stone-50 md:text-3xl px-8 text-2xl">{`CHANGE MY LIFE`}</button>
+					<button id="" onClick={() => goToForm()} className="bg-[#D83728] shadow-lg rounded-lg w-full h-16 md:h-20 leading-4 text-stone-50 md:text-3xl px-8 text-2xl">{`START MY JOURNEY`}</button>
 				</div>
 			</div>
 			
