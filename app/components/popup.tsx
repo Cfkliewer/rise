@@ -31,7 +31,7 @@ export const PopUp: FC<Props> = ({ close, sendEmail }) => {
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full bg-stone-950/70 lg:h-full flex justify-center items-center"
+      className="fixed overflow-hidden top-0 left-0 w-full h-full bg-stone-950/70 lg:h-full flex justify-center items-center"
       style={{ zIndex: 10000 }}
     >
       <Snowfall />
@@ -39,7 +39,7 @@ export const PopUp: FC<Props> = ({ close, sendEmail }) => {
         className="flex flex-col relative items-center mx-8 w-full lg:w-2/3 p-10 lg:p-20 rounded-lg bg-stone-50"
         style={{ zIndex: 100000 }}
       >
-        <button onClick={close} className="absolute right-8 top-4">
+        <button onClick={close} className="absolute right-4 top-2">
           <FontAwesomeIcon icon={faXmark} size="2xl" color="#000000" />
         </button>
         <h1 className="text-3xl lg:text-6xl text-stone-900 text-center mb-8">
