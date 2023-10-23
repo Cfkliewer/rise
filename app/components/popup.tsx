@@ -47,7 +47,7 @@ export const PopUp: FC<Props> = ({ close, sendEmail }) => {
         </h1>
         <p className="text-lg lg:text-xl text-stone-900 text-center mb-8">
           Enter your email to learn more about the North Swole Challenge and
-          enter to win a month of membership for{" "}
+          enter for a chance to win a month of membership for{" "}
           <span className="text-[#D83728] text-2xl lg:text-3xl">FREE!</span>
         </p>
         <input
