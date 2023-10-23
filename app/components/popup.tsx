@@ -11,7 +11,7 @@ interface Props {
 
 export const PopUp: FC<Props> = ({ close, sendEmail }) => {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState();
+  const [error, setError] = useState<string | undefined | null>();
 
   const submit = () => {
     if (!email) {
