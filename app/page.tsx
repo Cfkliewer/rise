@@ -85,28 +85,6 @@ export default function Home() {
     });
   };
 
-  const sendEmailFromPopup = async (email: string) => {
-    setShowPopup(false);
-    await axios({
-      method: "post",
-      url: "api/send-mail",
-      data: {
-        name: "",
-        email: email,
-        phone: "",
-        goals: "WINTER CHALLENGE",
-      },
-    })
-      .then(() => {
-        setEmailSent(true);
-        setTimeout(() => setEmailSent(false), 5000);
-      })
-      .catch(() => {
-        setEmailSent(true);
-        setTimeout(() => setEmailSent(false), 5000);
-      });
-  };
-
   const sendEmail = async (e: any) => {
     e.preventDefault();
 
