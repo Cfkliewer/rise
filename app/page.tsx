@@ -19,7 +19,6 @@ import { AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import axios from "axios";
 import "dotenv/config";
-import { PopUp } from "./components/popup";
 
 const koulen = Koulen({ weight: ["400"], subsets: ["latin"] });
 
@@ -38,7 +37,6 @@ export default function Home() {
     phone: "",
     goals: "",
   });
-  const [showPopup, setShowPopup] = useState(true);
 
   const [error, setError] = useState<string | undefined>();
 
@@ -163,9 +161,7 @@ export default function Home() {
   };
 
   return (
-    <body
-      className={`${koulen.className} ${!showPopup ? "" : "overflow-y-hidden"}`}
-    >
+    <body className={`${koulen.className}`}>
       <Head>
         <title>Rise Together</title>
         <meta property="og:title" content="Rise Together" key="title" />
@@ -184,14 +180,6 @@ export default function Home() {
           href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap"
           rel="stylesheet"
         />
-        {showPopup && (
-          <PopUp
-            close={() => {
-              setShowPopup(false);
-            }}
-            sendEmail={sendEmailFromPopup}
-          />
-        )}
         <div className="relative flex flex-col justify-center items-center bg-stone-900 w-full h-[40vh] md:h-[50vh]">
           <Image
             src="/banner 2.png"
