@@ -141,10 +141,10 @@ export default function Home() {
 	return (
 		<body className={`${koulen.className}`}>
 			<Head>
-				<title>Rise Together - Edmond</title>
+				<title>Rise Together - Edmond, Ok</title>
 				<meta
 					property="og:title"
-					content="Crossfit 822 Edmond - Rise Together"
+					content="CrossFit 822 Edmond, Ok - Rise Together"
 					key="title"
 				/>
 			</Head>
