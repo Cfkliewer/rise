@@ -474,7 +474,7 @@ export default function Home() {
 							textClasses={"text-[#D83728] md:text-[#1c1917]"}
 						/>
 						<Coach
-							coach="ANDREW EYEMAN"
+							coach="ANDREW EYMAN"
 							url="/andrew.jpg"
 							text={["CrossFit Level 1 Trainer"]}
 							classes={"bg-[#D83728] md:bg-[#1c1917]"}
