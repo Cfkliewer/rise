@@ -3,9 +3,9 @@ import "./globals.css";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-	title: "CrossFit 822 Edmond - Rise Together",
+	title: "822 Athletics Edmond - Rise Together",
 	description:
-		"Home of Rise Bootcamp and CrossFit 822 in Edmond, Oklahoma. Discover your best you.",
+		"Home of Rise Bootcamp and 822 Athletics in Edmond, Oklahoma. Discover your best you.",
 };
 
 export default function RootLayout({
@@ -18,6 +18,12 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/rise-logo.png" type="image/png" />
 				<meta name="robots" content="all" charSet="utf-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<meta name="description" content="Home of Rise Bootcamp and 822 Athletics in Edmond, Oklahoma. Discover your best you." />
+				<meta property="og:title" content="822 Athletics Edmond - Rise Together" />
+				<meta property="og:image" content="/rise-logo.png" />
+				<meta name="og:description" content="Home of Rise Bootcamp and 822 Athletics in Edmond, Oklahoma. Discover your best you." />
+				<meta property="og:url" content="https://www.822athletics.com" />
 				<Script
 					async
 					src="https://www.googletagmanager.com/gtag/js?id=G-P63TMZ1KR3"
@@ -32,7 +38,9 @@ export default function RootLayout({
 				`}
 				</Script>
 			</head>
-			{children}
+			<body>
+				{children}
+			</body>
 		</html>
 	);
 }

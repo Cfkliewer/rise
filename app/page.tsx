@@ -144,7 +144,7 @@ export default function Home() {
 				<title>Rise Together - Edmond, Ok</title>
 				<meta
 					property="og:title"
-					content="CrossFit 822 Edmond, Ok - Rise Together"
+					content="822 Athletics Edmond, Ok - Rise Together"
 					key="title"
 				/>
 			</Head>
@@ -315,7 +315,7 @@ export default function Home() {
 									$200
 								</div>
 								<button
-									className="bg-amber-300 rounded-lg hidden lg:block px-4 py-2"
+									className="bg-amber-300 rounded-lg hidden lg:block px-4 py-2 text-stone-900"
 									onClick={() => goToForm()}
 								>
 									Sign up now!
@@ -327,19 +327,19 @@ export default function Home() {
 						</div>
 						<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
 							<div className="text-stone-50 text-2xl md:text-3xl">
-								3 DAYS/WEEK CROSSFIT
+								3 CLASSES/WEEK
 							</div>
 							<div className="text-stone-50 text-2xl md:text-3xl">$125/MO</div>
 						</div>
 						<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
 							<div className="text-stone-50 text-2xl md:text-3xl">
-								4 DAYS/WEEK CROSSFIT
+								4 CLASSES/WEEK
 							</div>
 							<div className="text-stone-50 text-2xl md:text-3xl">$140/MO</div>
 						</div>
 						<div className="flex flex-row justify-between w-full my-2 md:px-12 lg:px-24 2xl:px-72">
 							<div className="text-stone-50 text-2xl md:text-3xl">
-								UNLIMITED CROSSFIT
+								UNLIMITED CLASSES
 							</div>
 							<div className="text-stone-50 text-2xl md:text-3xl">$155/MO</div>
 						</div>
@@ -384,7 +384,7 @@ export default function Home() {
 							</div>
 						</div>
 						<div className="flex flex-row justify-between px-12 lg:px-0 lg:justify-end lg:items-center lg:flex-col flex-1">
-							<div className="text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">
+							<div className="flex flex-col justify-center items-center text-stone-900 text-3xl md:text-4xl lg:text-5xl text-stone-900 pb-4">
 								PRE-PAY{" "}
 								<span className="lg:block 2xl:inline-block">(6MO+)</span>
 							</div>
@@ -448,9 +448,6 @@ export default function Home() {
 							url="/jenae.jpg"
 							text={[
 								"Owner/Head Coach",
-								"CrossFit Level 2 Trainer",
-								"Nutrition 1 Certificate",
-								"Gymnastics Certificate",
 							]}
 							classes={"bg-[#1c1917]"}
 							textClasses={"text-[#D83728]"}
@@ -458,7 +455,7 @@ export default function Home() {
 						<Coach
 							coach="AMY POWERS"
 							url="/amy.jpg"
-							text={["CrossFit Level 1 Trainer", "Gymnastics Certificate"]}
+							text={[]}
 							classes={"bg-[#D83728]"}
 							textClasses={"text-[#1c1917]"}
 						/>
@@ -466,9 +463,6 @@ export default function Home() {
 							coach="MICHELLE SABEDRA"
 							url="/michelle.jpg"
 							text={[
-								"CrossFit Level 1 Trainer",
-								"Weightlifting Certificate",
-								"Running Certificate",
 							]}
 							classes={"bg-[#1c1917] md:bg-[#D83728]"}
 							textClasses={"text-[#D83728] md:text-[#1c1917]"}
@@ -476,7 +470,7 @@ export default function Home() {
 						<Coach
 							coach="ANDREW EYMAN"
 							url="/andrew.jpg"
-							text={["CrossFit Level 1 Trainer"]}
+							text={[]}
 							classes={"bg-[#D83728] md:bg-[#1c1917]"}
 							textClasses={"text-[#1c1917] md:text-[#D83728]"}
 						/>
