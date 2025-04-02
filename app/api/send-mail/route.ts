@@ -11,7 +11,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			name: 'crossfit822.com',
 			address: 'crossfit822@gmail.com'
 		},
-		to: "crossfit822@gmail.com",
+		to: "cfkliewer@gmail.com",
 		subject: "lead",
 		html: `<ul>
 						<li>name: ${data.name}</li>
