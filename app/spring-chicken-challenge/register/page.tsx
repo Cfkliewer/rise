@@ -150,7 +150,7 @@ export default function Register() {
               <div className="rounded-md bg-green-50 p-4 text-green-800">
                 <div className="flex items-center">
                   <FontAwesomeIcon icon={faCheckCircle} className="mr-2" />
-                  <p>Registration successful! We&apos;ll be in touch soon.</p>
+                  <p>Registration successful! We'll be in touch soon.</p>
                 </div>
               </div>
             )}
