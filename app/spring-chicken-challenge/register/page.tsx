@@ -42,6 +42,7 @@ export default function Register() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
+        goals: 'Spring chicken challenge'
       });
       setSubmitStatus("success");
       // Clear form after successful submission
