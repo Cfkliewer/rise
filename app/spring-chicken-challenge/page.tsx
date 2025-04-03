@@ -31,12 +31,12 @@ export default function SpringChickenChallenge() {
   const howItWorks = [
     {
       title: "Join a team",
-      description: "A random drawing will decide what team you&apos;re on",
+      description: "A random drawing will decide what team you're on",
       img: "/spring-chicken/coaches.jpeg",
     }, 
     {
       title: "Make friends",
-      description: "You&apos;ll get to know your team members and make new friends and be in a private group to support each other",
+      description: "You'll get to know your team members and make new friends and be in a private group to support each other",
       img: "/spring-chicken/friends.jpeg",
     },
     {

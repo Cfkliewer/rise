@@ -165,7 +165,7 @@ export default function Home() {
 							</button>
 
 							<div className="grid gap-8 md:gap-10 md:grid-cols-2">
-								<div className="relative h-[400px] overflow-hidden rounded-lg bg-stone-800 md:h-full">
+								<div className="relative h-[250px] overflow-hidden rounded-lg bg-stone-800 md:h-[400px]">
                   <div className="relative h-full w-full">
 									<Image
 										src="/spring-chicken/spring-chicken.jpeg"
@@ -311,8 +311,8 @@ export default function Home() {
 								<p className="text-center">
 									I initially signed up for a six-week bootcamp to feel a bit
 									more confident in the dress I was wearing in my best
-									friend&apos;s wedding. I almost didn&apos;t go inside the
-									first day but I&apos;m glad I did! The coaches helped push
+									friend's wedding. I almost didn't go inside the
+									first day but I'm glad I did! The coaches helped push
 									towards my goals by supporting and encouraging me in the gym
 									AND in life.
 								</p>
@@ -327,8 +327,8 @@ export default function Home() {
 								<p className="text-center">
 									I initially signed up for a six-week bootcamp to feel a bit
 									more confident in the dress I was wearing in my best
-									friend&apos;s wedding. I almost didn&apos;t go inside the
-									first day but I&apos;m glad I did! The coaches helped push
+									friend's wedding. I almost didn't go inside the
+									first day but I'm glad I did! The coaches helped push
 									towards my goals by supporting and encouraging me in the gym
 									AND in life.
 								</p>
@@ -342,12 +342,12 @@ export default function Home() {
 							<p className="text-stone-50 text-2xl"></p>
 							<div className="text-stone-50 text-lg md:text-xl xl:text-2xl">
 								<p className="text-center">
-									When I first inquired about Rise, I honestly didn&apos;t think
+									When I first inquired about Rise, I honestly didn't think
 									I would be able to participate. I have a past medical history
 									that includes multiple orthopedic surgeries. However, all of
 									the coaches have assisted me with modifications when needed to
 									keep my workout safe, pain free and still very effective! In
-									fact, I&apos;m now able to do many movements completely pain
+									fact, I'm now able to do many movements completely pain
 									free!
 								</p>
 								<div className="w-full text-right">
