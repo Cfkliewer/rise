@@ -1,61 +1,33 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer'
-import 'dotenv/config'
+import { Resend } from 'resend';
 
-export async function POST(req: NextRequest, res: NextResponse) {
+const resend = new Resend(process.env.RESEND_API_KEY);
+const receivingEmail = process.env.RECEIVING_EMAIL;
 
-	const data = await req.json();
-	const message = {
-		from: {
-			name: 'crossfit822.com',
-			address: 'crossfit822@gmail.com'
-		},
-		to: "cfkliewer@gmail.com",
-		subject: "lead",
-		html: `<ul>
-						<li>name: ${data.name}</li>
-						<li>email: ${data.email}</li>
-						<li>phone: ${data.phone}</li>
-						<li>goals: ${data.goals}</li>
-					 </ul>`
-	}
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.json();
 
-	let transporter = nodemailer.createTransport({
-		service: 'Gmail',
-		secure: true,
-		auth: {
-			user: process.env.EMAIL_USER,
-			pass: process.env.EMAIL_PASS
-		}
-	})
+    const { data: emailResponse } = await resend.emails.send({
+      from: 'Rise Bootcamp <onboarding@resend.dev>',
+      to: [receivingEmail?.toString() ?? "crossfit822@gmail.com"],
+      subject: 'New Lead from Website',
+      html: `<ul>
+        <li>Name: ${data.name}</li>
+        <li>Email: ${data.email}</li>
+        <li>Phone: ${data.phone}</li>
+        <li>Goals: ${data.goals}</li>
+      </ul>`
+    });
 
-	await new Promise((resolve, reject) => {
-		transporter.verify(function (error, success) {
-			if(error) {
-				console.log(error)
-				reject(error);
-			} else {
-				resolve(success)
-			}
-		})
-	});
-
-	await new Promise((resolve, reject) => {
-		if(req.method === 'POST') {
-			transporter.sendMail(message, (err, info) => {
-				if(err) {
-					console.log("Error sending mail")
-					console.log(err)
-					reject(err)
-				} else {
-					console.log(info)
-					resolve(info)
-				}
-			});
-		}
-	});
-
-	return NextResponse.json({success: true})
+    return NextResponse.json({ success: true, id: emailResponse?.id });
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to send email' },
+      { status: 500 }
+    );
+  }
 }
 

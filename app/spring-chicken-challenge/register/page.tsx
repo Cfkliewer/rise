@@ -11,10 +11,6 @@ export default function Register() {
     name: "",
     email: "",
     phone: "",
-    contactPreferences: {
-      email: false,
-      phone: false,
-    },
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,10 +22,6 @@ export default function Register() {
     if (type === 'checkbox') {
       setFormData((prev) => ({
         ...prev,
-        contactPreferences: {
-          ...prev.contactPreferences,
-          [name]: checked,
-        },
       }));
     } else {
       setFormData((prev) => ({
@@ -50,10 +42,6 @@ export default function Register() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        goals: `Spring Chicken Challenge Registration - Preferred contact: ${[
-          formData.contactPreferences.email ? 'Email' : '',
-          formData.contactPreferences.phone ? 'Phone' : ''
-        ].filter(Boolean).join(', ')}`
       });
       setSubmitStatus("success");
       // Clear form after successful submission
@@ -61,10 +49,6 @@ export default function Register() {
         name: "",
         email: "",
         phone: "",
-        contactPreferences: {
-          email: false,
-          phone: false,
-        },
       });
     } catch (error: any) {
       setSubmitStatus("error");
@@ -137,34 +121,6 @@ export default function Register() {
                 className="w-full rounded-md border-stone-600 bg-stone-700 px-4 py-2 text-white placeholder-stone-400 focus:border-[#D83728] focus:ring-[#D83728]"
                 placeholder="Enter your phone number"
               />
-            </div>
-
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-white">
-                I prefer to be contacted by:
-              </label>
-              <div className="flex space-x-8">
-                <label className="inline-flex cursor-pointer items-center hover:opacity-80">
-                  <input
-                    type="checkbox"
-                    name="email"
-                    checked={formData.contactPreferences.email}
-                    onChange={handleChange}
-                    className="h-5 w-5 rounded border-[#D83728] bg-stone-800 text-[#D83728] checked:bg-[#D83728] hover:bg-stone-700 focus:ring-1 focus:ring-[#D83728] focus:ring-offset-1 focus:ring-offset-stone-900"
-                  />
-                  <span className="ml-2 text-white">Email</span>
-                </label>
-                <label className="inline-flex cursor-pointer items-center hover:opacity-80">
-                  <input
-                    type="checkbox"
-                    name="phone"
-                    checked={formData.contactPreferences.phone}
-                    onChange={handleChange}
-                    className="h-5 w-5 rounded border-[#D83728] bg-stone-800 text-[#D83728] checked:bg-[#D83728] hover:bg-stone-700 focus:ring-1 focus:ring-[#D83728] focus:ring-offset-1 focus:ring-offset-stone-900"
-                  />
-                  <span className="ml-2 text-white">Phone</span>
-                </label>
-              </div>
             </div>
 
             <button
