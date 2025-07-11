@@ -31,7 +31,6 @@ export default function Home() {
 	const [[page, direction], setPage] = useState([new Date().getDay(), 0]);
 	const [emailSent, setEmailSent] = useState(false);
 	const [firstEmail, setFirstEmail] = useState();
-	const [showPromoModal, setShowPromoModal] = useState(true);
 	const [formValues, setFormValues] = useState({
 		name: "",
 		email: "",
@@ -141,68 +140,6 @@ export default function Home() {
 
 	return (
 		<body className={`${koulen.className}`}>
-			<AnimatePresence>
-				{showPromoModal && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4"
-						onClick={() => setShowPromoModal(false)}
-					>
-						<motion.div
-							initial={{ scale: 0.9, y: 20 }}
-							animate={{ scale: 1, y: 0 }}
-							exit={{ scale: 0.9, y: 20 }}
-							className="relative max-h-[90vh] w-full max-w-4xl overflow-auto rounded-xl border border-[#D83728] bg-stone-900 p-8 md:p-10 shadow-xl"
-							onClick={(e) => e.stopPropagation()}
-						>
-							<button
-								onClick={() => setShowPromoModal(false)}
-								className="absolute right-4 top-4 text-2xl text-stone-400 hover:text-[#D83728] transition-colors"
-							>
-								×
-							</button>
-
-							<div className="grid gap-8 md:gap-10 md:grid-cols-2">
-								<div className="relative h-[250px] overflow-hidden rounded-lg bg-stone-800 md:h-[400px]">
-                  <div className="relative h-full w-full">
-									<Image
-										src="/spring-chicken/spring-chicken.jpeg"
-										alt="Spring Chicken Challenge"
-										fill
-										className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority
-                    style={{ objectPosition: 'center 30%' }}
-									/>
-                  </div>
-								</div>
-
-								<div className="flex flex-col justify-center space-y-4">
-									<h2 className="text-3xl md:text-5xl text-[#D83728]">Spring Chicken Challenge</h2>
-									<p className="text-2xl md:text-3xl text-white">Transform Your Life in 6 Weeks!</p>
-									<div className="space-y-4 text-lg text-stone-300">
-										<p><span className="text-green-500">✓</span> $100 for the entire program</p>
-										<p><span className="text-green-500">✓</span> Accountability</p>
-										<p><span className="text-green-500">✓</span> Unlimited group classes</p>
-										<p className="hidden md:block"><span className="text-green-500">✓</span> Before & after measurements</p>
-										<p className="hidden md:block"><span className="text-green-500">✓</span> Nutrition guidance</p>
-									</div>
-									<div className="pt-4">
-										<a
-											href="/spring-chicken-challenge"
-											className="inline-block rounded-full bg-[#D83728] px-10 py-4 text-xl text-white transition-colors hover:bg-[#D83728]/70"
-										>
-											Learn More
-										</a>
-									</div>
-								</div>
-							</div>
-						</motion.div>
-					</motion.div>
-				)}
-			</AnimatePresence>
 			<Head>
 				<title>Rise Together - Edmond, Ok</title>
 				<meta
@@ -523,19 +460,11 @@ export default function Home() {
 							textClasses={"text-[#1c1917]"}
 						/>
 						<Coach
-							coach="MICHELLE SABEDRA"
-							url="/michelle.jpg"
-							text={[
-							]}
-							classes={"bg-[#1c1917] md:bg-[#D83728]"}
-							textClasses={"text-[#D83728] md:text-[#1c1917]"}
-						/>
-						<Coach
 							coach="ANDREW EYMAN"
 							url="/andrew.jpg"
 							text={[]}
-							classes={"bg-[#D83728] md:bg-[#1c1917]"}
-							textClasses={"text-[#1c1917] md:text-[#D83728]"}
+							classes={"bg-[#1c1917] md:bg-[#D83728]"}
+							textClasses={"text-[#D83728] md:text-[#1c1917]"}
 						/>
 					</div>
 				</div>
