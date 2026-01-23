@@ -1,12 +1,12 @@
 "use client";
 
-import { Koulen } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { FC, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Coach } from "./components/coach";
 import { Testimonial } from "./components/testimonial";
+import { PopUp } from "./components/popup";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,8 +20,6 @@ import { wrap } from "popmotion";
 import axios from "axios";
 import "dotenv/config";
 
-const koulen = Koulen({ weight: ["400"], subsets: ["latin"] });
-
 //force build
 
 export default function Home() {
@@ -30,6 +28,9 @@ export default function Home() {
 	const days = ["SS", "M", "T", "W", "TH", "F", "S"];
 	const [[page, direction], setPage] = useState([new Date().getDay(), 0]);
 	const [emailSent, setEmailSent] = useState(false);
+	const [showPopup, setShowPopup] = useState(false);
+	const [popupEmailSent, setPopupEmailSent] = useState(false);
+	const [mounted, setMounted] = useState(false);
 	const [firstEmail, setFirstEmail] = useState();
 	const [formValues, setFormValues] = useState({
 		name: "",
@@ -39,6 +40,18 @@ export default function Home() {
 	});
 
 	const [error, setError] = useState<string | undefined>();
+
+	useEffect(() => {
+		setMounted(true);
+		// TEMPORARY: Clear for testing - remove after confirming it works
+		localStorage.removeItem("hasSeen21DayKickstartPopup");
+
+		const hasSeenPopup = localStorage.getItem("hasSeen21DayKickstartPopup");
+		console.log("Popup check:", { mounted: true, hasSeenPopup, showPopup: !hasSeenPopup });
+		if (!hasSeenPopup) {
+			setShowPopup(true);
+		}
+	}, []);
 
 	const handleChange = (e: any) => {
 		if (e.target.id == "phone" || e.target.id == "email") setError("");
@@ -138,8 +151,44 @@ export default function Home() {
 		document.getElementById("name")?.focus();
 	};
 
+	const handlePopupEmail = async (name: string, email: string, phone: string) => {
+		await axios({
+			method: "post",
+			url: "api/send-mail",
+			data: {
+				name: name,
+				email: email,
+				phone: phone,
+				goals: "21 Day Kickstart - Popup Signup",
+			},
+		})
+			.then(() => {
+				setPopupEmailSent(true);
+				localStorage.setItem("hasSeen21DayKickstartPopup", "true");
+				setTimeout(() => {
+					setShowPopup(false);
+					setPopupEmailSent(false);
+				}, 2000);
+			})
+			.catch(() => {
+				setPopupEmailSent(true);
+				localStorage.setItem("hasSeen21DayKickstartPopup", "true");
+				setTimeout(() => {
+					setShowPopup(false);
+					setPopupEmailSent(false);
+				}, 2000);
+			});
+	};
+
+	const closePopup = () => {
+		setShowPopup(false);
+		localStorage.setItem("hasSeen21DayKickstartPopup", "true");
+	};
+
+	console.log("Home render:", { mounted, showPopup, popupEmailSent });
+
 	return (
-		<body className={`${koulen.className}`}>
+		<>
 			<Head>
 				<title>Rise Together - Edmond, Ok</title>
 				<meta
@@ -152,6 +201,19 @@ export default function Home() {
 				id="main"
 				className={`flex flex-col items-center bg-stone-900 overflow-x-hidden overflow-y-hidden`}
 			>
+				{/* 21 Day Kickoff Promotional Banner */}
+				<div className="w-full bg-[#D83728] py-4 px-4 text-center z-50">
+					<a href="/kickstart" className="group">
+						<div className="flex flex-col md:flex-row items-center justify-center gap-2">
+							<span className="text-stone-50 text-xl md:text-2xl font-semibold">
+								🚀 Join Our 21 Day Kickstart Challenge!
+							</span>
+							<span className="text-amber-300 text-lg md:text-xl group-hover:underline">
+								Learn More →
+							</span>
+						</div>
+					</a>
+				</div>
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link
 					rel="preconnect"
@@ -593,9 +655,20 @@ export default function Home() {
 				) : (
 					<></>
 				)}
+				{mounted && showPopup && !popupEmailSent && (
+					<PopUp close={closePopup} sendEmail={handlePopupEmail} />
+				)}
+				{mounted && popupEmailSent && (
+					<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-stone-50 shadow-2xl rounded-lg p-8 flex flex-col items-center z-[100001]">
+						<FontAwesomeIcon icon={faCheckCircle} color="#22c55e" size="4x" />
+						<p className="text-stone-900 text-2xl mt-4 text-center">
+							Thank you! We'll be in touch soon.
+						</p>
+					</div>
+				)}
 			</main>
 			<Analytics />
-		</body>
+		</>
 	);
 }
 

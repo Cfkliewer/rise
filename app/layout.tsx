@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
+import { Koulen } from "next/font/google";
+
+const koulen = Koulen({ weight: ["400"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "822 Athletics Edmond - Rise Together",
@@ -38,7 +41,7 @@ export default function RootLayout({
 				`}
 				</Script>
 			</head>
-			<body>
+			<body className={koulen.className}>
 				{children}
 			</body>
 		</html>
