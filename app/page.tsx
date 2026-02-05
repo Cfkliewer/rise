@@ -554,6 +554,24 @@ export default function Home() {
             font-size: 16px !important;
           }
         }
+
+        /* FAQ Details/Summary styling */
+        details summary::-webkit-details-marker {
+          display: none;
+        }
+        details[open] summary ~ * {
+          animation: faq-open 0.3s ease-in-out;
+        }
+        @keyframes faq-open {
+          0% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
       `}</style>
 
       <main className="design1 min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
@@ -963,6 +981,101 @@ export default function Home() {
           </div>
         </section>
         <TornEdge flip color="#D83728" />
+
+        {/* ════════════════ FAQ ════════════════ */}
+        <section className="py-14 sm:py-24 px-4 bg-[#0A0A0A] relative">
+          <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: "repeating-linear-gradient(0deg, #FFD700 0px, #FFD700 1px, transparent 1px, transparent 50px), repeating-linear-gradient(90deg, #FFD700 0px, #FFD700 1px, transparent 1px, transparent 50px)"
+          }} />
+          <div className="max-w-4xl mx-auto relative z-10">
+            <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} className="text-center mb-10 sm:mb-16">
+              <span className="marker-font text-[#FF006E] text-base sm:text-xl">{"// GOT QUESTIONS?"}</span>
+              <h2 className="heading-font text-5xl sm:text-6xl md:text-8xl text-white mt-2">
+                FAQ<span className="text-[#FFD700]">s</span>
+              </h2>
+            </motion.div>
+
+            <div className="space-y-3 sm:space-y-4">
+              {[
+                {
+                  q: "What is the 21-Day Kickstart program?",
+                  a: "Our 21-Day Kickstart is a beginner-friendly program for just $49 that includes unlimited group fitness classes, nutrition guidance, personal coaching support, and access to our family-friendly community. It's designed for people of all fitness levels to experience what 822 Athletics has to offer."
+                },
+                {
+                  q: "Do I need to be in shape to start?",
+                  a: "Absolutely not! 822 Athletics welcomes all fitness levels. Our experienced coaches provide modifications for every movement, ensuring your workout is safe, effective, and tailored to your current fitness level. Most of our members thought the gym wasn't for them until they tried it."
+                },
+                {
+                  q: "What are your class times?",
+                  a: "We offer classes throughout the day Monday-Sunday. Weekday morning classes start at 5:00 AM, with midday options at 12:00 PM and evening classes at 5:15 PM and 6:15 PM. Weekend classes are available Saturday mornings at 8:15 AM and 9:15 AM, and Sunday at 10:00 AM. We also have Open Gym time Monday-Friday at 4:00 PM."
+                },
+                {
+                  q: "How much does a membership cost?",
+                  a: "We offer flexible membership options: 3 classes per week for $125/month, 4 classes per week for $140/month, and unlimited classes for $155/month. We also provide discounts for teachers, first responders, students, spouses (20% off), and those who pre-pay for 6+ months (10% off)."
+                },
+                {
+                  q: "Is 822 Athletics family-friendly?",
+                  a: "Yes! Kids are welcome at 822 Athletics. We understand that life is busy and sometimes you need to bring the whole family. Our community is built around supporting each other, including families with children."
+                },
+                {
+                  q: "Where is 822 Athletics located in Edmond?",
+                  a: "We're located at 14310 N. Lincoln Blvd., Suite 300, Edmond, OK 73013. You can call or text us at (405) 361-3471. We're easy to find and have convenient parking."
+                },
+                {
+                  q: "Do you offer nutrition guidance?",
+                  a: "Yes! All our memberships include nutrition guidance. We provide real food plans designed for real lifestyles - no fads or extreme diets. Our coaches help you develop sustainable eating habits that support your fitness goals."
+                },
+                {
+                  q: "What makes 822 Athletics different from other gyms?",
+                  a: "822 Athletics is more than just a gym - it's a community that feels like family. We offer small group classes where you won't feel judged, rushed, or lost. Our experienced coaches ensure everyone gets personal attention regardless of skill level. Plus, we include nutrition guidance and accountability coaching to help you succeed both in and out of the gym."
+                }
+              ].map((faq, i) => (
+                <motion.details
+                  key={i}
+                  initial={{ y: 30, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="group bg-[#111] border-2 border-[#222] hover:border-[#FFD700] transition-all duration-300"
+                >
+                  <summary className="cursor-pointer px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center list-none">
+                    <span className="heading-font text-base sm:text-xl md:text-2xl text-white group-hover:text-[#FFD700] transition-colors pr-4">
+                      {faq.q}
+                    </span>
+                    <span className="text-[#FFD700] heading-font text-2xl sm:text-3xl shrink-0 group-open:rotate-45 transition-transform duration-300">
+                      +
+                    </span>
+                  </summary>
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-0">
+                    <div className="border-t-2 border-[#222] pt-3 sm:pt-4">
+                      <p className="text-gray-300 text-sm sm:text-base md:text-lg font-semibold leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                </motion.details>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="mt-8 sm:mt-12 text-center"
+            >
+              <p className="text-gray-400 font-semibold text-sm sm:text-base mb-4">Still have questions?</p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="tel:4053613471" className="bg-[#FFD700] text-black heading-font text-base sm:text-lg px-6 py-3 border-2 border-black active:bg-white hover:bg-white transition-colors">
+                  CALL US
+                </a>
+                <a href="sms:4053613471" className="bg-[#111] text-[#FFD700] heading-font text-base sm:text-lg px-6 py-3 border-2 border-[#FFD700] active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black transition-colors">
+                  TEXT US
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
         {/* ════════════════ FINAL CTA ════════════════ */}
         <section className="relative py-20 sm:py-32 px-4 overflow-hidden">
