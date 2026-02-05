@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons";
 
 /* ══════════════════════════════════════════════════════════════════
    822 ATHLETICS — BRUTALIST RAW ENERGY HOMEPAGE
@@ -25,7 +27,7 @@ const SCHEDULE: Record<string, { time: string; label: string; highlight?: boolea
     { time: "12:00 PM", label: "Workout of the Day" },
     { time: "4:00 PM", label: "Open Gym" },
     { time: "5:15 PM", label: "Workout of the Day" },
-    { time: "6:15 PM", label: "Bootcamp", highlight: true },
+    { time: "6:15 PM", label: "Workout of the Day" },
   ],
   Wednesday: [
     { time: "5:00 AM", label: "Workout of the Day" },
@@ -40,7 +42,7 @@ const SCHEDULE: Record<string, { time: string; label: string; highlight?: boolea
     { time: "12:00 PM", label: "Workout of the Day" },
     { time: "4:00 PM", label: "Open Gym" },
     { time: "5:15 PM", label: "Workout of the Day" },
-    { time: "6:15 PM", label: "Bootcamp", highlight: true },
+    { time: "6:15 PM", label: "Workout of the Day" },
   ],
   Friday: [
     { time: "5:00 AM", label: "Workout of the Day" },
@@ -51,7 +53,7 @@ const SCHEDULE: Record<string, { time: string; label: string; highlight?: boolea
   ],
   Saturday: [
     { time: "8:15 AM", label: "Workout of the Day" },
-    { time: "9:15 AM", label: "Bootcamp", highlight: true },
+    { time: "9:15 AM", label: "Workout of the Day" },
   ],
   Sunday: [
     { time: "10:00 AM – 12:00 PM", label: "Sunday Funday" },
@@ -724,16 +726,16 @@ export default function Home() {
               <h2 className="heading-font text-5xl sm:text-6xl md:text-8xl text-white mt-2">PRICING</h2>
             </motion.div>
 
-            {/* 6-week bootcamp featured */}
+            {/* $49 Kickstart featured */}
             <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }}
               className="bg-[#D83728] p-5 sm:p-8 md:p-10 relative overflow-hidden mb-4 sm:mb-6 border-2 border-[#D83728] hover:border-[#FFD700] transition-colors"
             >
               <div className="absolute top-0 left-0 bg-[#FFD700] text-black heading-font text-xs sm:text-sm px-6 sm:px-8 py-1 transform -rotate-45 -translate-x-4 sm:-translate-x-6 translate-y-2 sm:translate-y-3">HOT DEAL</div>
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                  <h3 className="heading-font text-2xl sm:text-4xl md:text-5xl text-white">6 WEEK BOOTCAMP</h3>
+                  <h3 className="heading-font text-2xl sm:text-4xl md:text-5xl text-white">21 DAY KICKSTART</h3>
                   <ul className="mt-2 sm:mt-3 space-y-0.5 sm:space-y-1">
-                    {["NUTRITION GUIDANCE & MONITORING", "IN DEPTH EXERCISE EXPLANATIONS", "INTRO TO FUNCTIONAL FITNESS", "GOAL SETTING SEMINARS"].map((item, i) => (
+                    {["SMALL GROUP CLASSES", "NUTRITION GUIDANCE", "ACCOUNTABILITY & COACHING", "KIDS WELCOME"].map((item, i) => (
                       <li key={i} className="text-white/80 font-semibold text-sm sm:text-lg flex items-center gap-2">
                         <span className="text-[#FFD700]">&#8226;</span> {item}
                       </li>
@@ -741,7 +743,7 @@ export default function Home() {
                   </ul>
                 </div>
                 <div className="text-center shrink-0 w-full md:w-auto flex md:block items-center justify-between md:justify-center gap-4">
-                  <div className="heading-font text-4xl sm:text-5xl md:text-6xl text-white">$200</div>
+                  <div className="heading-font text-4xl sm:text-5xl md:text-6xl text-white">$49</div>
                   <button onClick={() => goToForm()} className="mt-0 md:mt-3 bg-[#FFD700] text-black heading-font text-base sm:text-lg px-5 sm:px-6 py-2 active:bg-white hover:bg-white transition-colors">
                     SIGN UP NOW
                   </button>
@@ -843,29 +845,9 @@ export default function Home() {
                   ))}
                 </div>
 
-                {/* Bootcamp callout */}
-                {(DAY_KEYS[selectedDay] === "Tuesday" || DAY_KEYS[selectedDay] === "Thursday" || DAY_KEYS[selectedDay] === "Saturday") && (
-                  <div className="mt-3 sm:mt-4 text-center">
-                    <span className="marker-font text-[#FFD700] text-xs sm:text-sm">{"★ Bootcamp classes highlighted in gold"}</span>
-                  </div>
-                )}
               </motion.div>
             </AnimatePresence>
 
-            {/* Bootcamp sidebar */}
-            <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} className="mt-8 sm:mt-12 bg-[#FFD700] text-black p-5 sm:p-6 md:p-8 max-w-2xl mx-auto">
-              <h3 className="heading-font text-2xl sm:text-3xl text-center mb-3 sm:mb-4">BOOTCAMP SCHEDULE</h3>
-              <div className="flex flex-row justify-center gap-6 sm:gap-8 md:gap-12 text-center">
-                <div>
-                  <div className="heading-font text-lg sm:text-xl">9:15 AM</div>
-                  <div className="font-semibold text-black/70 text-sm sm:text-base">Saturday</div>
-                </div>
-                <div>
-                  <div className="heading-font text-lg sm:text-xl">6:15 PM</div>
-                  <div className="font-semibold text-black/70 text-sm sm:text-base">Tue & Thu</div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </section>
 
@@ -1002,14 +984,25 @@ export default function Home() {
         </section>
 
         {/* ════════════════ FOOTER ════════════════ */}
-        <footer className="bg-black py-6 sm:py-8 px-4 border-t-2 border-[#222]">
-          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
+        <footer className="bg-black py-4 sm:py-8 px-4 border-t-2 border-[#222]">
+          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-2 sm:gap-3">
-              <Image src="/rise-logo.png" alt="822 Athletics - Edmond group fitness gym" width={32} height={32} className="w-7 h-7 sm:w-8 sm:h-8 object-contain" />
-              <span className="heading-font text-lg sm:text-xl text-white">822 ATHLETICS</span>
+              <Image src="/rise-logo.png" alt="822 Athletics - Edmond group fitness gym" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+              <span className="heading-font text-base sm:text-xl text-white">822 ATHLETICS</span>
+            </div>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <a href="https://www.facebook.com/822athletics" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#FFD700] transition-colors">
+                <FontAwesomeIcon icon={faFacebook} className="w-5 h-5 sm:w-6 sm:h-6" />
+              </a>
+              <a href="https://www.instagram.com/822athletics" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#FFD700] transition-colors">
+                <FontAwesomeIcon icon={faInstagram} className="w-5 h-5 sm:w-6 sm:h-6" />
+              </a>
+              <a href="https://www.tiktok.com/@822athletics" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#FFD700] transition-colors">
+                <FontAwesomeIcon icon={faTiktok} className="w-5 h-5 sm:w-6 sm:h-6" />
+              </a>
             </div>
             <div className="text-gray-600 font-semibold text-xs sm:text-sm text-center sm:text-right">
-              <p>14310 N. Lincoln Blvd., Ste. 300, Edmond, OK 73013</p>
+              <p className="hidden sm:block">14310 N. Lincoln Blvd., Ste. 300, Edmond, OK 73013</p>
               <p>405-361-3471 &bull; www.822athletics.com</p>
             </div>
           </div>
