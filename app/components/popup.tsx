@@ -83,7 +83,7 @@ export const PopUp: FC<Props> = ({ close, sendEmail }) => {
       onTouchMove={(e) => e.preventDefault()}
     >
       <div
-        className="flex flex-col relative items-center mx-8 w-full lg:w-2/3 xl:w-1/2 p-8 lg:p-12 rounded-lg bg-stone-50 max-h-[90vh] overflow-y-auto"
+        className="flex flex-col relative items-center mx-8 w-full lg:w-2/3 xl:w-1/2 p-6 lg:p-12 rounded-lg bg-stone-50 max-h-[85vh] lg:max-h-[90vh] overflow-y-auto"
         style={{ zIndex: 100000, touchAction: 'auto' }}
         onTouchMove={(e) => e.stopPropagation()}
       >
