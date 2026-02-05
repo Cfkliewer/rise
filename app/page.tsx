@@ -615,7 +615,7 @@ export default function Home() {
 
             <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }} className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
               <button
-                onClick={goToForm}
+                onClick={() => goToForm()}
                 className="group relative w-full sm:w-auto bg-[#FFD700] text-black heading-font text-lg sm:text-2xl px-6 sm:px-10 py-3.5 sm:py-4 border-3 sm:border-4 border-black active:bg-[#FF006E] active:text-white hover:bg-[#FF006E] hover:text-white transition-all duration-200 transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFD700]"
               >
                 START MY JOURNEY
@@ -742,7 +742,7 @@ export default function Home() {
                 </div>
                 <div className="text-center shrink-0 w-full md:w-auto flex md:block items-center justify-between md:justify-center gap-4">
                   <div className="heading-font text-4xl sm:text-5xl md:text-6xl text-white">$200</div>
-                  <button onClick={goToForm} className="mt-0 md:mt-3 bg-[#FFD700] text-black heading-font text-base sm:text-lg px-5 sm:px-6 py-2 active:bg-white hover:bg-white transition-colors">
+                  <button onClick={() => goToForm()} className="mt-0 md:mt-3 bg-[#FFD700] text-black heading-font text-base sm:text-lg px-5 sm:px-6 py-2 active:bg-white hover:bg-white transition-colors">
                     SIGN UP NOW
                   </button>
                 </div>
@@ -1018,7 +1018,7 @@ export default function Home() {
         {/* ════════════════ FLOATING CTA ════════════════ */}
         {!submitInView && (
           <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 2, duration: 0.5 }} className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-            <button onClick={goToForm} className="block bg-[#FF006E] text-white heading-font text-sm sm:text-lg px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-white active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black hover:border-black transition-all duration-200 shadow-[3px_3px_0px_#000] sm:shadow-[4px_4px_0px_#000]">
+            <button onClick={() => goToForm()} className="block bg-[#FF006E] text-white heading-font text-sm sm:text-lg px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-white active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black hover:border-black transition-all duration-200 shadow-[3px_3px_0px_#000] sm:shadow-[4px_4px_0px_#000]">
               START MY JOURNEY
             </button>
           </motion.div>
