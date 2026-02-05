@@ -7,6 +7,7 @@ import Image from "next/image";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons";
+import StructuredData from "./components/StructuredData";
 
 /* ══════════════════════════════════════════════════════════════════
    822 ATHLETICS — BRUTALIST RAW ENERGY HOMEPAGE
@@ -575,6 +576,7 @@ export default function Home() {
       `}</style>
 
       <main className="design1 min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
+        <StructuredData />
 
         {/* ════════════════ TICKER BAR ════════════════ */}
         <div className="bg-[#FFD700] text-black py-1.5 sm:py-2 overflow-hidden relative z-50">
@@ -616,7 +618,7 @@ export default function Home() {
 
           {/* Logo */}
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-12 z-20">
-            <Image src="/rise-white.png" alt="822 Athletics - Group Fitness Gym Edmond" width={160} height={80} className="w-20 sm:w-24 md:w-40 h-auto" priority />
+            <Image src="/rise-logo.png" alt="822 Athletics - Group Fitness Gym Edmond" width={160} height={80} className="w-20 sm:w-24 md:w-40 h-auto" priority />
           </div>
 
           {/* Content */}
