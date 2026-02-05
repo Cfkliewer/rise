@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.822athletics.com/sitemap.xml
+
+# Block access to API routes
+User-agent: *
+Disallow: /api/
+
+# Block access to admin areas if any
+User-agent: *
+Disallow: /_next/

@@ -2,6 +2,9 @@
   "name": "rise",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +13,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@types/google-map-react": "^2.1.7",
@@ -20,22 +24,29 @@
     "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "canvas-confetti": "^1.9.4",
     "classnames": "^2.3.2",
     "dotenv": "^16.3.1",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.8",
     "framer-motion": "^10.13.0",
     "google-map-react": "^2.2.1",
+    "jimp": "^1.6.0",
     "next": "13.4.8",
     "nodemailer": "^6.9.4",
     "popmotion": "^11.0.5",
     "postcss": "8.4.25",
+    "qrcode": "^1.5.4",
     "react": "18.2.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "18.2.0",
     "react-snowfall": "^1.2.1",
     "resend": "^4.2.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0"
   }
 }
