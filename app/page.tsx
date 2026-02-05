@@ -704,8 +704,10 @@ export default function Home() {
                   )}
                   {/* Quote */}
                   <div className="flex-1 bg-[#111] border-2 border-[#222] p-5 sm:p-8 flex flex-col justify-center relative group hover:border-[#FFD700] transition-all duration-300">
-                    <div className="text-3xl sm:text-5xl text-[#FFD700] heading-font leading-none mb-2 sm:mb-3">&ldquo;</div>
-                    <p className="text-sm sm:text-lg font-semibold text-gray-300 leading-relaxed">{t.quote}</p>
+                    <div className="flex gap-2 sm:gap-3">
+                      <span className="text-3xl sm:text-5xl text-[#FFD700] heading-font leading-none flex-shrink-0">&ldquo;</span>
+                      <p className="text-sm sm:text-lg font-semibold text-gray-300 leading-relaxed">{t.quote}</p>
+                    </div>
                     <div className="mt-4 sm:mt-6 flex items-center gap-2 sm:gap-3">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#FFD700] flex items-center justify-center heading-font text-black text-sm sm:text-lg shrink-0">{t.name[0]}</div>
                       <span className="heading-font text-base sm:text-xl text-white">— {t.name}</span>
