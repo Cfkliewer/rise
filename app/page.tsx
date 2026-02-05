@@ -217,7 +217,7 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
         initial={{ scale: 0.8, opacity: 0, y: 40 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 180, damping: 18, delay: 0.1 }}
-        className="relative w-full max-w-2xl lg:max-w-4xl max-h-[95vh] overflow-y-auto bg-[#0A0A0A]"
+        className="relative w-full max-w-2xl lg:max-w-4xl max-h-[65vh] lg:max-h-[90vh] overflow-y-auto bg-[#0A0A0A]"
         style={{ borderWidth: "3px", borderColor: "#FFD700", borderStyle: "solid", WebkitOverflowScrolling: "touch" }}
         onClick={(e) => e.stopPropagation()}
       >

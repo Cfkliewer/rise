@@ -78,17 +78,17 @@ export const PopUp: FC<Props> = ({ close, sendEmail }) => {
 
   return (
     <div
-      className="fixed overflow-hidden top-0 left-0 w-full h-full bg-stone-950/70 lg:h-full flex justify-center items-center"
+      className="fixed overflow-hidden top-0 left-0 w-full h-full bg-stone-950/70 lg:h-full flex justify-center items-start lg:items-center pt-16 lg:pt-0"
       style={{ zIndex: 10000, touchAction: 'none' }}
       onTouchMove={(e) => e.preventDefault()}
     >
       <div
-        className="flex flex-col relative items-center mx-8 w-full lg:w-2/3 xl:w-1/2 p-6 lg:p-12 rounded-lg bg-stone-50 max-h-[85vh] lg:max-h-[90vh] overflow-y-auto"
+        className="flex flex-col relative items-center mx-4 lg:mx-8 w-full lg:w-2/3 xl:w-1/2 p-6 lg:p-12 rounded-lg bg-stone-50 max-h-[65vh] lg:max-h-[90vh] overflow-y-auto"
         style={{ zIndex: 100000, touchAction: 'auto' }}
         onTouchMove={(e) => e.stopPropagation()}
       >
-        <button onClick={close} className="absolute right-4 top-4 z-10">
-          <FontAwesomeIcon icon={faXmark} className="w-8 h-8" color="#000000" />
+        <button onClick={close} className="absolute right-3 top-3 z-10 p-2 hover:bg-stone-200 rounded-full transition-colors">
+          <FontAwesomeIcon icon={faXmark} className="w-6 h-6 lg:w-8 lg:h-8" color="#000000" />
         </button>
 
         <h1 className="text-3xl lg:text-5xl text-stone-900 text-center mb-4 mt-2">
