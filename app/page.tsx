@@ -731,8 +731,8 @@ export default function Home() {
               className="bg-[#D83728] p-5 sm:p-8 md:p-10 relative overflow-hidden mb-4 sm:mb-6 border-2 border-[#D83728] hover:border-[#FFD700] transition-colors"
             >
               <div className="absolute top-0 left-0 bg-[#FFD700] text-black heading-font text-xs sm:text-sm px-6 sm:px-8 py-1 transform -rotate-45 -translate-x-4 sm:-translate-x-6 translate-y-2 sm:translate-y-3">HOT DEAL</div>
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="text-center md:text-left">
                   <h3 className="heading-font text-2xl sm:text-4xl md:text-5xl text-white">21 DAY KICKSTART</h3>
                   <ul className="mt-2 sm:mt-3 space-y-0.5 sm:space-y-1">
                     {["SMALL GROUP CLASSES", "NUTRITION GUIDANCE", "ACCOUNTABILITY & COACHING", "KIDS WELCOME"].map((item, i) => (
