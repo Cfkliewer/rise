@@ -10,6 +10,8 @@ const koulen = Koulen({
 	preload: true
 });
 
+const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
+
 export const metadata: Metadata = {
 	title: "822 Athletics | Group Fitness Gym & Bootcamp in Edmond, OK",
 	description:
@@ -61,7 +63,7 @@ export default function RootLayout({
 				{/* Google Analytics */}
 				<Script
 					async
-					src="https://www.googletagmanager.com/gtag/js?id=G-P63TMZ1KR3"
+					src="https://www.googletagmanager.com/gtag/js?id=G-SWGFTD0ZF4"
 				/>
 				<Script id="google-analytics">
 					{`
@@ -69,9 +71,18 @@ export default function RootLayout({
 					function gtag(){dataLayer.push(arguments);}
 					gtag('js', new Date());
 
-					gtag('config', 'G-P63TMZ1KR3');
+					gtag('config', 'G-SWGFTD0ZF4');
 				`}
 				</Script>
+				{clarityProjectId && (
+					<Script id="microsoft-clarity" strategy="afterInteractive">
+						{`(function(c,l,a,r,i,t,y){
+							c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+							t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+							y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+						})(window,document,"clarity","script",${JSON.stringify(clarityProjectId)});`}
+					</Script>
+				)}
 			</head>
 			<body className={koulen.className}>
 				{children}

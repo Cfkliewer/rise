@@ -9,6 +9,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons";
 import StructuredData from "./components/StructuredData";
 
+declare global {
+  interface Window {
+    gtag?: (command: "event", eventName: string, parameters?: Record<string, string | number | boolean>) => void;
+  }
+}
+
+function trackEvent(eventName: string, parameters: Record<string, string | number | boolean> = {}) {
+  window.gtag?.("event", eventName, parameters);
+}
+
 /* ══════════════════════════════════════════════════════════════════
    822 ATHLETICS — BRUTALIST RAW ENERGY HOMEPAGE
    ══════════════════════════════════════════════════════════════════ */
@@ -129,7 +139,7 @@ function GlitchText({ children, className }: { children: string; className?: str
 // ─── POPUP COMPONENT ───
 function KickstartPopup({ onClose, onSubmit, submitted }: {
   onClose: () => void;
-  onSubmit: (name: string, email: string, phone: string) => void;
+  onSubmit: (name: string, email: string, phone: string) => Promise<boolean>;
   submitted: boolean;
 }) {
   const [name, setName] = useState("");
@@ -181,10 +191,10 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
     };
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!email && !phone) { setError("Enter an email or phone number"); return; }
     if (email && !/^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) { setError("Enter a valid email"); return; }
-    onSubmit(name, email, phone);
+    if (!await onSubmit(name, email, phone)) setError("Could not send your request. Please call or text us.");
   };
 
   if (submitted) {
@@ -362,7 +372,7 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
                 />
                 {error && <p className="text-[#FF006E] text-sm sm:text-base font-semibold">{error}</p>}
                 <button
-                  onClick={handleSubmit}
+                  onClick={() => void handleSubmit()}
                   className="w-full bg-[#FFD700] text-black heading-font text-lg sm:text-xl lg:text-2xl py-3.5 sm:py-4 border-3 sm:border-4 border-black active:bg-[#FF006E] active:text-white hover:bg-[#FF006E] hover:text-white hover:border-[#FF006E] transition-all duration-200"
                 >
                   START 21-DAY KICKSTART
@@ -378,10 +388,10 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
               >
                 <p className="text-gray-500 text-center lg:text-left text-xs sm:text-sm mb-2 font-semibold">Or contact us directly:</p>
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <a href="tel:4053613471" className="flex-1 bg-[#111] border-2 border-[#333] text-center py-3 heading-font text-sm sm:text-base lg:text-lg text-gray-300 active:border-[#FFD700] active:text-[#FFD700] hover:border-[#FFD700] hover:text-[#FFD700] transition-colors">
+                  <a href="tel:4053613471" onClick={() => trackEvent("contact_click", { method: "phone", location: "popup" })} className="flex-1 bg-[#111] border-2 border-[#333] text-center py-3 heading-font text-sm sm:text-base lg:text-lg text-gray-300 active:border-[#FFD700] active:text-[#FFD700] hover:border-[#FFD700] hover:text-[#FFD700] transition-colors">
                     CALL 405-361-3471
                   </a>
-                  <a href="sms:4053613471" className="flex-1 bg-[#111] border-2 border-[#333] text-center py-3 heading-font text-sm sm:text-base lg:text-lg text-gray-300 active:border-[#FF006E] active:text-[#FF006E] hover:border-[#FF006E] hover:text-[#FF006E] transition-colors">
+                  <a href="sms:4053613471" onClick={() => trackEvent("contact_click", { method: "text", location: "popup" })} className="flex-1 bg-[#111] border-2 border-[#333] text-center py-3 heading-font text-sm sm:text-base lg:text-lg text-gray-300 active:border-[#FF006E] active:text-[#FF006E] hover:border-[#FF006E] hover:text-[#FF006E] transition-colors">
                     TEXT US
                   </a>
                 </div>
@@ -433,10 +443,11 @@ export default function Home() {
   // ─── POPUP INIT ───
   useEffect(() => {
     setMounted(true);
-    // TODO: Remove this line when done testing — forces popup on every refresh
-    localStorage.removeItem("hasSeen21DayKickstartPopup");
     const hasSeen = localStorage.getItem("hasSeen21DayKickstartPopup");
-    if (!hasSeen) setShowPopup(true);
+    if (!hasSeen) {
+      setShowPopup(true);
+      trackEvent("kickstart_popup_view");
+    }
   }, []);
 
   // ─── SCROLL SPY FOR FLOATING CTA ───
@@ -447,6 +458,24 @@ export default function Home() {
     };
     window.addEventListener("scroll", check);
     return () => window.removeEventListener("scroll", check);
+  }, []);
+
+  useEffect(() => {
+    const reportedDepths = new Set<number>();
+    const reportScrollDepth = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll <= 0) return;
+      const progress = (window.scrollY / maxScroll) * 100;
+      [25, 50, 75].forEach((depth) => {
+        if (progress >= depth && !reportedDepths.has(depth)) {
+          reportedDepths.add(depth);
+          trackEvent("scroll_depth", { percent: depth });
+        }
+      });
+    };
+    window.addEventListener("scroll", reportScrollDepth, { passive: true });
+    reportScrollDepth();
+    return () => window.removeEventListener("scroll", reportScrollDepth);
   }, []);
 
   // ─── FORM HANDLERS ───
@@ -460,24 +489,37 @@ export default function Home() {
     if (!formValues.email && !formValues.phone) { setFormError("Email or phone is required"); return; }
     try {
       await axios.post("api/send-mail", formValues);
-    } catch {}
-    setEmailSent(true);
-    setFormValues({ name: "", email: "", phone: "", goals: "" });
-    setTimeout(() => setEmailSent(false), 5000);
+      trackEvent("lead_form_submit", { form_location: "contact" });
+      setEmailSent(true);
+      setFormValues({ name: "", email: "", phone: "", goals: "" });
+      setTimeout(() => setEmailSent(false), 5000);
+    } catch {
+      setFormError("Could not send your request. Please call or text us.");
+    }
   };
 
   const handlePopupEmail = async (name: string, email: string, phone: string) => {
     try {
       await axios.post("api/send-mail", { name, email, phone, goals: "21 Day Kickstart - Popup Signup" });
-    } catch {}
-    setPopupSubmitted(true);
-    localStorage.setItem("hasSeen21DayKickstartPopup", "true");
-    setTimeout(() => { setShowPopup(false); setPopupSubmitted(false); }, 2000);
+      trackEvent("lead_form_submit", { form_location: "popup" });
+      setPopupSubmitted(true);
+      localStorage.setItem("hasSeen21DayKickstartPopup", "true");
+      setTimeout(() => { setShowPopup(false); setPopupSubmitted(false); }, 2000);
+      return true;
+    } catch {
+      return false;
+    }
   };
 
-  const closePopup = () => { setShowPopup(false); localStorage.setItem("hasSeen21DayKickstartPopup", "true"); };
+  const closePopup = () => {
+    trackEvent("kickstart_popup_dismiss");
+    setShowPopup(false);
+    localStorage.setItem("hasSeen21DayKickstartPopup", "true");
+  };
 
-  const goToForm = (prefillGoals?: string) => {
+  const goToForm = (source: string, prefillGoals?: string) => {
+    trackEvent("cta_click", { cta_source: source });
+
     if (prefillGoals) {
       setFormValues((prev) => ({ ...prev, goals: prefillGoals }));
     }
@@ -637,13 +679,13 @@ export default function Home() {
 
             <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }} className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
               <button
-                onClick={() => goToForm()}
+                onClick={() => goToForm("hero")}
                 className="group relative w-full sm:w-auto bg-[#FFD700] text-black heading-font text-lg sm:text-2xl px-6 sm:px-10 py-3.5 sm:py-4 border-3 sm:border-4 border-black active:bg-[#FF006E] active:text-white hover:bg-[#FF006E] hover:text-white transition-all duration-200 transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFD700]"
               >
                 START MY JOURNEY
                 <span className="absolute -top-2.5 -right-2 sm:-top-3 sm:-right-3 bg-[#FF006E] text-white text-xs px-2 py-0.5 sm:py-1 heading-font">$49</span>
               </button>
-              <a href="tel:4053613471" className="w-full sm:w-auto text-center heading-font text-lg sm:text-xl text-[#FFD700] border-2 border-[#FFD700] px-6 sm:px-8 py-3.5 sm:py-4 active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black transition-all duration-200">
+              <a href="tel:4053613471" onClick={() => trackEvent("contact_click", { method: "phone", location: "hero" })} className="w-full sm:w-auto text-center heading-font text-lg sm:text-xl text-[#FFD700] border-2 border-[#FFD700] px-6 sm:px-8 py-3.5 sm:py-4 active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black transition-all duration-200">
                 CALL 405-361-3471
               </a>
             </motion.div>
@@ -766,7 +808,7 @@ export default function Home() {
                 </div>
                 <div className="text-center shrink-0 w-full md:w-auto flex md:block items-center justify-between md:justify-center gap-4">
                   <div className="heading-font text-4xl sm:text-5xl md:text-6xl text-white">$49</div>
-                  <button onClick={() => goToForm()} className="mt-0 md:mt-3 bg-[#FFD700] text-black heading-font text-base sm:text-lg px-5 sm:px-6 py-2 active:bg-white hover:bg-white transition-colors">
+                  <button onClick={() => goToForm("pricing")} className="mt-0 md:mt-3 bg-[#FFD700] text-black heading-font text-base sm:text-lg px-5 sm:px-6 py-2 active:bg-white hover:bg-white transition-colors">
                     SIGN UP NOW
                   </button>
                 </div>
@@ -823,7 +865,10 @@ export default function Home() {
                 {DAY_KEYS.map((day, i) => (
                   <button
                     key={day}
-                    onClick={() => setSelectedDay(i)}
+                    onClick={() => {
+                      setSelectedDay(i);
+                      trackEvent("schedule_day_selected", { day: day.toLowerCase() });
+                    }}
                     className={`heading-font text-base sm:text-lg md:text-xl px-3 sm:px-4 md:px-6 py-2 border-2 transition-all duration-200 whitespace-nowrap ${
                       selectedDay === i
                         ? "bg-[#FFD700] text-black border-[#FFD700]"
@@ -913,7 +958,7 @@ export default function Home() {
             <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} className="text-center mb-8 sm:mb-12">
               <h2 className="heading-font text-4xl sm:text-6xl md:text-8xl text-white leading-tight">DISCOVER YOUR BEST YOU</h2>
               <p className="heading-font text-lg sm:text-2xl text-white/70 mt-2">
-                Call or text us at: <a href="tel:4053613471" className="text-[#FFD700] underline">(405) 361-3471</a> — Or drop in
+                Call or text us at: <a href="tel:4053613471" onClick={() => trackEvent("contact_click", { method: "phone", location: "contact" })} className="text-[#FFD700] underline">(405) 361-3471</a> — Or drop in
               </p>
             </motion.div>
 
@@ -1039,6 +1084,9 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
                   className="group bg-[#111] border-2 border-[#222] hover:border-[#FFD700] transition-all duration-300"
+                  onToggle={(event) => {
+                    if (event.currentTarget.open) trackEvent("faq_open", { question_number: i + 1 });
+                  }}
                 >
                   <summary className="cursor-pointer px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center list-none">
                     <span className="heading-font text-base sm:text-xl md:text-2xl text-white group-hover:text-[#FFD700] transition-colors pr-4">
@@ -1068,10 +1116,10 @@ export default function Home() {
             >
               <p className="text-gray-400 font-semibold text-sm sm:text-base mb-4">Still have questions?</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="tel:4053613471" className="bg-[#FFD700] text-black heading-font text-base sm:text-lg px-6 py-3 border-2 border-black active:bg-white hover:bg-white transition-colors">
+                <a href="tel:4053613471" onClick={() => trackEvent("contact_click", { method: "phone", location: "faq" })} className="bg-[#FFD700] text-black heading-font text-base sm:text-lg px-6 py-3 border-2 border-black active:bg-white hover:bg-white transition-colors">
                   CALL US
                 </a>
-                <a href="sms:4053613471" className="bg-[#111] text-[#FFD700] heading-font text-base sm:text-lg px-6 py-3 border-2 border-[#FFD700] active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black transition-colors">
+                <a href="sms:4053613471" onClick={() => trackEvent("contact_click", { method: "text", location: "faq" })} className="bg-[#111] text-[#FFD700] heading-font text-base sm:text-lg px-6 py-3 border-2 border-[#FFD700] active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black transition-colors">
                   TEXT US
                 </a>
               </div>
@@ -1093,7 +1141,7 @@ export default function Home() {
             </h2>
             <p className="marker-font text-base sm:text-xl md:text-2xl text-white/80 mt-4 sm:mt-6 transform -rotate-1">Your 21-day transformation starts now.</p>
             <div className="mt-8 sm:mt-12">
-              <button onClick={() => goToForm("21 Day Kickstart")} className="w-full sm:w-auto bg-[#FFD700] text-black heading-font text-xl sm:text-2xl md:text-3xl px-8 sm:px-12 py-4 sm:py-5 border-3 sm:border-4 border-black active:bg-white hover:bg-white transition-all duration-200 transform hover:-translate-y-1 hover:shadow-[8px_8px_0px_#FFD700]">
+              <button onClick={() => goToForm("final", "21 Day Kickstart")} className="w-full sm:w-auto bg-[#FFD700] text-black heading-font text-xl sm:text-2xl md:text-3xl px-8 sm:px-12 py-4 sm:py-5 border-3 sm:border-4 border-black active:bg-white hover:bg-white transition-all duration-200 transform hover:-translate-y-1 hover:shadow-[8px_8px_0px_#FFD700]">
                 JOIN FOR $49
               </button>
             </div>
@@ -1128,7 +1176,7 @@ export default function Home() {
         {/* ════════════════ FLOATING CTA ════════════════ */}
         {!submitInView && (
           <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 2, duration: 0.5 }} className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-            <button onClick={() => goToForm()} className="block bg-[#FF006E] text-white heading-font text-sm sm:text-lg px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-white active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black hover:border-black transition-all duration-200 shadow-[3px_3px_0px_#000] sm:shadow-[4px_4px_0px_#000]">
+            <button onClick={() => goToForm("floating")} className="block bg-[#FF006E] text-white heading-font text-sm sm:text-lg px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-white active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black hover:border-black transition-all duration-200 shadow-[3px_3px_0px_#000] sm:shadow-[4px_4px_0px_#000]">
               START MY JOURNEY
             </button>
           </motion.div>
