@@ -126,16 +126,6 @@ function TornEdge({ flip = false, color = "#FFD700" }: { flip?: boolean; color?:
   );
 }
 
-function GlitchText({ children, className }: { children: string; className?: string }) {
-  return (
-    <span className={`relative inline-block ${className || ""}`}>
-      <span className="absolute top-0 left-0 text-[#FF006E] opacity-70 animate-glitch-1" aria-hidden="true" style={{ clipPath: "inset(20% 0 50% 0)" }}>{children}</span>
-      <span className="absolute top-0 left-0 text-[#00FFFF] opacity-70 animate-glitch-2" aria-hidden="true" style={{ clipPath: "inset(50% 0 20% 0)" }}>{children}</span>
-      <span className="relative">{children}</span>
-    </span>
-  );
-}
-
 // ─── POPUP COMPONENT ───
 function KickstartPopup({ onClose, onSubmit, submitted }: {
   onClose: () => void;
@@ -149,47 +139,37 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = "unset"; };
+  }, []);
 
-    // Firework-style confetti — initial burst + repeating volleys
+  useEffect(() => {
+    if (!submitted) return;
+
     let intervalId: ReturnType<typeof setInterval>;
     (async () => {
       try {
         const confetti = (await import("canvas-confetti")).default;
         const colors = ["#FFD700", "#FF006E", "#D83728", "#FF6B35", "#FFFFFF"];
 
-        // Big initial burst from both sides
         confetti({ particleCount: 150, spread: 100, startVelocity: 55, origin: { x: 0.15, y: 0.7 }, colors, zIndex: 100002, gravity: 0.8, scalar: 1.2, ticks: 200 });
         confetti({ particleCount: 150, spread: 100, startVelocity: 55, origin: { x: 0.85, y: 0.7 }, colors, zIndex: 100002, gravity: 0.8, scalar: 1.2, ticks: 200 });
-
-        // Center shower
-        setTimeout(() => {
-          confetti({ particleCount: 80, spread: 160, startVelocity: 45, origin: { x: 0.5, y: 0.3 }, colors, zIndex: 100002, gravity: 1, scalar: 1, ticks: 150 });
-        }, 300);
-
-        // Repeating firework bursts from random positions
         intervalId = setInterval(() => {
-          const x = 0.1 + Math.random() * 0.8;
-          const y = 0.2 + Math.random() * 0.4;
           confetti({
-            particleCount: 40 + Math.floor(Math.random() * 40),
-            spread: 60 + Math.random() * 50,
-            startVelocity: 30 + Math.random() * 25,
-            origin: { x, y },
+            particleCount: 40,
+            spread: 80,
+            startVelocity: 40,
+            origin: { x: 0.1 + Math.random() * 0.8, y: 0.2 + Math.random() * 0.4 },
             colors,
             zIndex: 100002,
             gravity: 0.9,
-            scalar: 0.9 + Math.random() * 0.4,
             ticks: 120,
           });
         }, 1200);
       } catch {}
     })();
 
-    return () => {
-      document.body.style.overflow = "unset";
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, []);
+    return () => { if (intervalId) clearInterval(intervalId); };
+  }, [submitted]);
 
   const handleSubmit = async () => {
     if (!email && !phone) { setError("Enter an email or phone number"); return; }
@@ -440,14 +420,17 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // ─── POPUP INIT ───
+  // ─── DELAYED POPUP ───
   useEffect(() => {
     setMounted(true);
-    const hasSeen = localStorage.getItem("hasSeen21DayKickstartPopup");
-    if (!hasSeen) {
+    if (localStorage.getItem("hasSeen21DayKickstartPopup")) return;
+
+    const timer = window.setTimeout(() => {
       setShowPopup(true);
       trackEvent("kickstart_popup_view");
-    }
+    }, 30000);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   // ─── SCROLL SPY FOR FLOATING CTA ───
@@ -530,24 +513,6 @@ export default function Home() {
   return (
     <>
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Permanent+Marker&display=swap');
-
-        @keyframes glitch-1 {
-          0%, 100% { transform: translate(0); }
-          20% { transform: translate(-3px, 3px); }
-          40% { transform: translate(3px, -3px); }
-          60% { transform: translate(-2px, -2px); }
-          80% { transform: translate(2px, 2px); }
-        }
-        @keyframes glitch-2 {
-          0%, 100% { transform: translate(0); }
-          20% { transform: translate(3px, -3px); }
-          40% { transform: translate(-3px, 3px); }
-          60% { transform: translate(2px, 2px); }
-          80% { transform: translate(-2px, -2px); }
-        }
-        .animate-glitch-1 { animation: glitch-1 3s infinite; }
-        .animate-glitch-2 { animation: glitch-2 3s infinite reverse; }
 
         @keyframes ticker {
           0% { transform: translateX(0); }
@@ -582,10 +547,10 @@ export default function Home() {
           z-index: 1;
         }
 
-        .design1 * { font-family: 'Barlow Condensed', sans-serif; }
-        .design1 h1, .design1 h2, .design1 h3, .design1 .heading-font { font-family: 'Bebas Neue', sans-serif; }
-        .design1 .marker-font { font-family: 'Permanent Marker', cursive; }
-        .design1 input, .design1 textarea { font-family: 'Barlow Condensed', sans-serif; }
+        .design1 * { font-family: var(--font-barlow), sans-serif; }
+        .design1 h1, .design1 h2, .design1 h3, .design1 .heading-font { font-family: var(--font-bebas), sans-serif; }
+        .design1 .marker-font { font-family: var(--font-marker), cursive; }
+        .design1 input, .design1 textarea { font-family: var(--font-barlow), sans-serif; }
 
         /* Hide scrollbar for horizontal scroll areas */
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -636,11 +601,20 @@ export default function Home() {
           className="relative min-h-screen flex items-center justify-center noise-bg overflow-hidden"
           style={{ y: bgY }}
         >
-          {/* Banner images */}
+          {/* Responsive hero image: the browser downloads only the matching source. */}
           <div className="absolute inset-0">
-            <Image src="/banner 2.png" alt="Group fitness class in action at 822 Athletics gym in Edmond, Oklahoma" fill className="object-cover opacity-30 hidden 2xl:block" priority />
-            <Image src="/banner-md.png" alt="Members working out together at 822 Athletics Edmond" fill className="object-cover opacity-30 hidden md:block 2xl:hidden" priority />
-            <Image src="/banner-xxs.png" alt="822 Athletics functional fitness training in Edmond" fill className="object-cover opacity-30 md:hidden" priority />
+            <picture>
+              <source media="(max-width: 767px)" srcSet="/banner-mobile.webp" />
+              <source media="(max-width: 1535px)" srcSet="/banner-tablet.webp" />
+              <img
+                src="/banner-desktop.webp"
+                alt="Group fitness class at 822 Athletics in Edmond, Oklahoma"
+                width={1920}
+                height={528}
+                fetchPriority="high"
+                className="absolute inset-0 h-full w-full object-cover opacity-30"
+              />
+            </picture>
             <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/40 via-[#0A0A0A]/70 to-[#0A0A0A]" />
           </div>
 
@@ -660,35 +634,37 @@ export default function Home() {
 
           {/* Logo */}
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-12 z-20">
-            <Image src="/rise-logo.png" alt="822 Athletics - Group Fitness Gym Edmond" width={160} height={80} className="w-20 sm:w-24 md:w-40 h-auto" priority />
+            <Image src="/rise-logo.png" alt="822 Athletics - Group Fitness Gym Edmond" width={160} height={116} sizes="(min-width: 768px) 160px, 80px" className="w-20 sm:w-24 md:w-40 h-auto" />
           </div>
 
           {/* Content */}
           <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-            <motion.div initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}>
-              <h1 className="heading-font text-[16vw] sm:text-[14vw] md:text-[10vw] leading-[0.85] tracking-tight">
-                <GlitchText>822</GlitchText>
+            <div>
+              <h1 className="heading-font text-[14vw] sm:text-[11vw] md:text-[7rem] leading-[0.85] tracking-tight">
+                GROUP FITNESS
                 <br />
-                <span className="text-[#FFD700]">ATHLETICS</span>
+                <span className="text-[#FFD700]">IN EDMOND</span>
               </h1>
-            </motion.div>
+            </div>
 
-            <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 0.9 }} className="mt-3 sm:mt-4">
-              <p className="marker-font text-lg sm:text-2xl md:text-4xl text-[#FF006E] transform -rotate-2">A Gym That Fits Real Life!</p>
-            </motion.div>
+            <div className="mt-4 max-w-2xl mx-auto">
+              <p className="text-lg sm:text-2xl md:text-3xl font-semibold text-white">
+                Beginner-friendly coaching and nutrition guidance.<br />A community that feels like family.
+              </p>
+              <p className="marker-font text-base sm:text-xl md:text-2xl text-[#FF006E] mt-3 transform -rotate-1">21 days. Unlimited classes. $49.</p>
+            </div>
 
-            <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: 1.2 }} className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
+            <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
               <button
-                onClick={() => goToForm("hero")}
+                onClick={() => goToForm("hero", "21 Day Kickstart")}
                 className="group relative w-full sm:w-auto bg-[#FFD700] text-black heading-font text-lg sm:text-2xl px-6 sm:px-10 py-3.5 sm:py-4 border-3 sm:border-4 border-black active:bg-[#FF006E] active:text-white hover:bg-[#FF006E] hover:text-white transition-all duration-200 transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFD700]"
               >
-                START MY JOURNEY
-                <span className="absolute -top-2.5 -right-2 sm:-top-3 sm:-right-3 bg-[#FF006E] text-white text-xs px-2 py-0.5 sm:py-1 heading-font">$49</span>
+                START THE 21-DAY KICKSTART
               </button>
               <a href="tel:4053613471" onClick={() => trackEvent("contact_click", { method: "phone", location: "hero" })} className="w-full sm:w-auto text-center heading-font text-lg sm:text-xl text-[#FFD700] border-2 border-[#FFD700] px-6 sm:px-8 py-3.5 sm:py-4 active:bg-[#FFD700] active:text-black hover:bg-[#FFD700] hover:text-black transition-all duration-200">
                 CALL 405-361-3471
               </a>
-            </motion.div>
+            </div>
           </div>
 
           {/* Scanline */}
@@ -760,7 +736,7 @@ export default function Home() {
                   {/* Image */}
                   {TESTIMONIAL_IMAGES[i] && (
                     <div className="md:w-1/3 relative h-64 sm:h-72 md:h-auto overflow-hidden border-2 border-[#222] group">
-                      <Image src={TESTIMONIAL_IMAGES[i]} alt={`${t.name} - 822 Athletics member success story and transformation`} fill className="object-cover object-center group-hover:scale-105 transition-transform duration-700" style={{ objectPosition: 'center 20%' }} loading="lazy" />
+                      <Image src={TESTIMONIAL_IMAGES[i]} alt={`${t.name} - 822 Athletics member success story and transformation`} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover object-center group-hover:scale-105 transition-transform duration-700" style={{ objectPosition: 'center 20%' }} loading="lazy" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60" />
                     </div>
                   )}
@@ -937,7 +913,7 @@ export default function Home() {
                   className="relative group"
                 >
                   <div className="relative h-[350px] sm:h-[380px] md:h-[450px] overflow-hidden border-2 border-[#222] group-hover:border-[#FFD700] transition-colors">
-                    <Image src={coach.url} alt={`${coach.name}, ${coach.role} at 822 Athletics Edmond`} fill className="object-cover object-center group-hover:scale-105 transition-transform duration-700" style={{ objectPosition: 'center 15%' }} loading="lazy" />
+                    <Image src={coach.url} alt={`${coach.name}, ${coach.role} at 822 Athletics Edmond`} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover object-center group-hover:scale-105 transition-transform duration-700" style={{ objectPosition: 'center 15%' }} loading="lazy" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
                       <div className="heading-font text-2xl sm:text-3xl text-[#FFD700]">{coach.name}</div>
@@ -967,7 +943,7 @@ export default function Home() {
               <motion.div initial={{ x: -40, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }}>
                 <div className="border-2 sm:border-4 border-[#FFD700] p-1.5 sm:p-2 bg-[#111]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.5!2d-97.4786!3d35.7234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87b21f6b5e1a1a1b%3A0x1234567890abcdef!2s14310%20N%20Lincoln%20Blvd%20Suite%20300%2C%20Edmond%2C%20OK%2073013!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                    src="https://www.google.com/maps?q=14310%20N%20Lincoln%20Blvd%20Suite%20300%2C%20Edmond%2C%20OK%2073013&output=embed"
                     width="100%" height="250"
                     style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) grayscale(50%)" }}
                     allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="822 Athletics Location"
