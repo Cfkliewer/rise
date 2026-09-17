@@ -135,6 +135,7 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [contact, setContact] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -172,9 +173,14 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
   }, [submitted]);
 
   const handleSubmit = async () => {
-    if (!email && !phone) { setError("Enter an email or phone number"); return; }
-    if (email && !/^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) { setError("Enter a valid email"); return; }
-    if (!await onSubmit(name, email, phone)) setError("Could not send your request. Please call or text us.");
+    const mobileEmail = contact.includes("@") ? contact : "";
+    const mobilePhone = mobileEmail ? "" : contact;
+    const submittedEmail = email || mobileEmail;
+    const submittedPhone = phone || mobilePhone;
+
+    if (!submittedEmail && !submittedPhone) { setError("Enter an email or phone number"); return; }
+    if (submittedEmail && !/^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(submittedEmail)) { setError("Enter a valid email"); return; }
+    if (!await onSubmit(name, submittedEmail, submittedPhone)) setError("Could not send your request. Please call or text us.");
   };
 
   if (submitted) {
@@ -203,14 +209,14 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 100001 }} onClick={onClose}>
+    <div className="fixed inset-0 flex items-end justify-center sm:items-center sm:p-4" style={{ zIndex: 100001 }} onClick={onClose}>
       <div className="absolute inset-0 bg-black/85" />
 
       <motion.div
         initial={{ scale: 0.8, opacity: 0, y: 40 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 180, damping: 18, delay: 0.1 }}
-        className="relative w-full max-w-2xl lg:max-w-4xl max-h-[65vh] lg:max-h-[90vh] overflow-y-auto bg-[#0A0A0A]"
+        className="relative w-full max-w-2xl lg:max-w-4xl max-h-[90dvh] lg:max-h-[90vh] overflow-y-auto bg-[#0A0A0A]"
         style={{ borderWidth: "3px", borderColor: "#FFD700", borderStyle: "solid", WebkitOverflowScrolling: "touch" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -220,12 +226,13 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
         {/* Close button — large touch target */}
         <button
           onClick={onClose}
+          aria-label="Close offer"
           className="absolute top-3 right-3 sm:top-5 sm:right-5 heading-font text-2xl sm:text-3xl text-gray-500 hover:text-[#FF006E] active:text-[#FF006E] transition-colors z-10 w-11 h-11 flex items-center justify-center border border-[#333] hover:border-[#FF006E] bg-[#0A0A0A]"
         >
           X
         </button>
 
-        <div className="p-5 sm:p-8 lg:p-10">
+        <div className="p-5 pb-24 sm:p-8 lg:p-10">
           {/* ── HEADER ── */}
           <div className="text-center mb-4 sm:mb-6 lg:mb-12">
             <motion.div
@@ -263,7 +270,7 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
             </motion.div>
           </div>
 
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 lg:items-start">
             {/* Left column: Description + Features */}
             <div>
               {/* ── DESCRIPTION ── */}
@@ -293,8 +300,8 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
                 ].map((item, i) => (
                   <motion.div
                     key={i}
-                    initial={{ x: -10, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.95 + i * 0.08 }}
                     className="flex items-center gap-2 sm:gap-3"
                   >
@@ -317,7 +324,7 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
             </div>
 
             {/* Right column: Form */}
-            <div>
+            <div className="order-first lg:order-none">
               {/* ── FORM ── */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
@@ -325,13 +332,26 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
                 transition={{ delay: 1.1 }}
                 className="space-y-3"
               >
-                <p className="heading-font text-base sm:text-lg lg:text-xl text-[#FFD700] text-center lg:text-left mb-2">ENTER YOUR INFO TO GET STARTED</p>
+                <p className="heading-font text-base sm:text-lg lg:text-xl text-[#FFD700] text-center lg:text-left mb-2">
+                  <span className="lg:hidden">ENTER EMAIL OR MOBILE NUMBER</span>
+                  <span className="hidden lg:inline">ENTER YOUR INFO TO GET STARTED</span>
+                </p>
+                <input
+                  type="text"
+                  autoComplete="email"
+                  aria-label="Email or mobile number"
+                  placeholder="you@email.com or (555) 123-4567"
+                  value={contact}
+                  onChange={(e) => { setContact(e.target.value); setError(null); }}
+                  className="w-full h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none lg:hidden"
+                  style={{ fontSize: "16px" }}
+                />
                 <input
                   type="text"
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => { setName(e.target.value); setError(null); }}
-                  className="w-full h-11 sm:h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base sm:text-lg tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none"
+                  className="hidden w-full h-11 sm:h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base sm:text-lg tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none lg:block"
                   style={{ fontSize: "16px" }}
                 />
                 <input
@@ -339,7 +359,7 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
                   placeholder="your@email.com (optional)"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setError(null); }}
-                  className="w-full h-11 sm:h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base sm:text-lg tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none"
+                  className="hidden w-full h-11 sm:h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base sm:text-lg tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none lg:block"
                   style={{ fontSize: "16px" }}
                 />
                 <input
@@ -347,13 +367,13 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
                   placeholder="(555) 123-4567 (optional)"
                   value={phone}
                   onChange={(e) => { setPhone(e.target.value); setError(null); }}
-                  className="w-full h-11 sm:h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base sm:text-lg tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none"
+                  className="hidden w-full h-11 sm:h-12 bg-[#111] border-2 border-[#333] text-white px-4 heading-font text-base sm:text-lg tracking-wide placeholder:text-gray-600 focus:border-[#FFD700] focus:outline-none transition-colors rounded-none lg:block"
                   style={{ fontSize: "16px" }}
                 />
                 {error && <p className="text-[#FF006E] text-sm sm:text-base font-semibold">{error}</p>}
                 <button
                   onClick={() => void handleSubmit()}
-                  className="w-full bg-[#FFD700] text-black heading-font text-lg sm:text-xl lg:text-2xl py-3.5 sm:py-4 border-3 sm:border-4 border-black active:bg-[#FF006E] active:text-white hover:bg-[#FF006E] hover:text-white hover:border-[#FF006E] transition-all duration-200"
+                  className="hidden w-full bg-[#FFD700] text-black heading-font text-lg sm:text-xl lg:text-2xl py-3.5 sm:py-4 border-3 sm:border-4 border-black active:bg-[#FF006E] active:text-white hover:bg-[#FF006E] hover:text-white hover:border-[#FF006E] transition-all duration-200 lg:block"
                 >
                   START 21-DAY KICKSTART
                 </button>
@@ -378,6 +398,15 @@ function KickstartPopup({ onClose, onSubmit, submitted }: {
               </motion.div>
             </div>
           </div>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 z-20 border-t-2 border-[#FFD700] bg-[#0A0A0A] p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
+          <button
+            onClick={() => void handleSubmit()}
+            className="w-full bg-[#FFD700] text-black heading-font text-lg py-3.5 border-3 border-black active:bg-[#FF006E] active:text-white transition-colors"
+          >
+            CLAIM MY 21-DAY KICKSTART
+          </button>
         </div>
 
         {/* Bottom accent bar */}
@@ -423,12 +452,10 @@ export default function Home() {
   // ─── DELAYED POPUP ───
   useEffect(() => {
     setMounted(true);
-    if (localStorage.getItem("hasSeen21DayKickstartPopup")) return;
-
     const timer = window.setTimeout(() => {
       setShowPopup(true);
       trackEvent("kickstart_popup_view");
-    }, 30000);
+    }, 2000);
 
     return () => window.clearTimeout(timer);
   }, []);
@@ -486,7 +513,6 @@ export default function Home() {
       await axios.post("api/send-mail", { name, email, phone, goals: "21 Day Kickstart - Popup Signup" });
       trackEvent("lead_form_submit", { form_location: "popup" });
       setPopupSubmitted(true);
-      localStorage.setItem("hasSeen21DayKickstartPopup", "true");
       setTimeout(() => { setShowPopup(false); setPopupSubmitted(false); }, 2000);
       return true;
     } catch {
@@ -497,7 +523,6 @@ export default function Home() {
   const closePopup = () => {
     trackEvent("kickstart_popup_dismiss");
     setShowPopup(false);
-    localStorage.setItem("hasSeen21DayKickstartPopup", "true");
   };
 
   const goToForm = (source: string, prefillGoals?: string) => {
@@ -959,7 +984,7 @@ export default function Home() {
               </motion.div>
 
               {/* Contact form */}
-              <motion.div initial={{ x: 40, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true }}>
+              <motion.div initial={{ y: 20, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }}>
                 <form ref={formRef} onSubmit={sendEmail} className="space-y-3 sm:space-y-4">
                   <div>
                     <label className="heading-font text-base sm:text-xl text-white/80 block mb-1">NAME</label>
